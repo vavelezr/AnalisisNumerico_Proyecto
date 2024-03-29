@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario y Resultado de Bisección</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .explicacion {
+            font-size: 14px;
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        :root{
+            --link: #000;
+            --hover: #b00;
+            --main: #000;
+            --bg: #f0f0f0;
+            --size: 99vmin;
+            --ratio: 1 / 1.1;
+
+        }
+        .btnHome {
+            width: 50px;
+            padding: 10px 0;
+            cursor: pointer;
+            position: relative;
+            text-align: center;
+            border: 3px solid var(--main);
+            color: var(--main);
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2.5px;
+            transition: all 0.2s;
+        }
+    </style>
+</head>
+<body>
+<a href="{% url 'home' %}" class="btnHome">Home</a>
+<div class="container">
+    <h2>Bisección</h2>
+    <div class="explicacion">
+        <p>La bisección es un método numérico utilizado para encontrar las raíces de una función. Se basa en el teorema del valor intermedio, dividiendo repetidamente un intervalo en subintervalos más pequeños y seleccionando aquel en el que la función cambia de signo.</p>
+        <p> Para llenar este formulario tienes que utilizar OBLIGATORIAMENTE la notaciòn de matlab</p>
+        <p>Los errores deben ser escritos así: 0.5e-5</p>
+        <p>La función debe ser escrita de este modo: x^3-2*x^2+x-1</p>
+    </div>
+    <h2>Formulario de Bisección</h2>
+    <div class="form-container">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="funcion">Función:</label>
+                <input type="text" id="funcion" name="funcion" placeholder="Ingrese la función">
+            </div>
+            <div class="form-group">
+                <label for="xs">Xs:</label>
+                <input type="text" id="xs" name="xs" placeholder="Ingrese Xs">
+            </div>
+            <div class="form-group">
+                <label for="xi">Xi:</label>
+                <input type="text" id="xi" name="xi" placeholder="Ingrese Xi">
+            </div>
+            <div class="form-group">
+                <label for="tol">Tol:</label>
+                <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia">
+            </div>
+            <div class="form-group">
+                <label for="niter">Niter:</label>
+                <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones">
+            </div>
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+    {% if respuesta %}
+        <h3>Resultado:</h3>
+        <p>{{ respuesta }}</p>
+        <p>Solución aproximada: {{ s }}</p>
+        <p>Error: {{ E }}</p>
+
+    {% endif %}
+
+    {% if tabla %}
+    <h3>Tabla de iteraciones:</h3>
+    <table border="1">
+        <tr>
+            <th>Iteración</th>
+            <th>a</th>
+            <th>xi</th>
+            <th>b</th>
+            <th>f(xi)</th>
+            <th>Error</th>
+        </tr>
+        {% for row in tabla %}
+        <tr>
+            <td>{{ row.Iteration }}</td>
+            <td>{{ row.a }}</td>
+            <td>{{ row.xi }}</td>
+            <td>{{ row.b }}</td>
+            <td>{{ row.fxi }}</td>
+            <td>{{ row.Error }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+</body>
+</html>

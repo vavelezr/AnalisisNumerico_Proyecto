@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <style>
+        :root{
+            --link: #000;
+            --hover: #b00;
+            --main: #000;
+            --bg: #f0f0f0;
+            --size: 99vmin;
+            --ratio: 1 / 1.1;
+            font-size: calc(var(--size) / 100);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--bg);
+            font-family: tahoma;
+            color: var(--main);
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 900;
+            padding: 40px 0;
+        }
+
+        .container {
+            width: calc(var(--size) * var(--ratio));
+            margin: 0 auto;
+        }
+
+        nav {
+            display: flex;
+
+        }
+
+        nav {
+            display: inline-block;
+            color: #000;
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 0 0 0 5px;
+            padding: 5px 10px;
+            transition: all 300ms ease-in-out;
+            margin-right: 10px;
+        }
+
+        nav a:hover {
+            color : var(--hover)
+        }
+
+        .logo {
+            width: 150px;
+            padding: 10px 0;
+            cursor: pointer;
+            position: relative;
+            text-align: center;
+            border: 3px solid var(--main);
+            color: var(--main);
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2.5px;
+            transition: all 0.2s;
+        }
+
+
+        .logo:hover {
+            background: var(--main)
+            color: var(--bg);
+        }
+
+        .intro {
+            width: 100%;
+            text-align: center;
+            overflow: hidden;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            font-weight: bold;
+
+        }
+
+        .intro-title {
+            color: var(--main);
+            font-size: 10rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-top: 10vmin;
+        }
+
+        .btn {
+            max-width: 100px;
+            display: inline-block;
+            padding: 15px 25px;
+            text-align: center;
+            border: 1px solid #000;
+            cursor: pointer;
+            transition: all 300ms ease-in-out;
+
+        }
+
+        .btn:hover {
+            background-color: #000;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header class="container">
+        <a href="" class="logo">PROYECTO</a>
+        <nav>
+            <a href="">Home</a>
+            <a href="">Bisección</a>
+            <a href="">Busqueda Incremental</a>
+        </nav>
+    </header>
+    <div class="container">
+        {%block content %}
+        <div class="intro">
+            <h1 class="intro-title">Proyecto<br> Análisis <br> Númerico</h1>
+            <a href="{% url 'biseccion' %}" class="btn">Biseccion</a>
+            <a href="{% url 'busqueda-incremental' %}" class="btn">Busqueda <br> Incremental</a>
+        </div>
+        {% endblock %}
+    </div>
+
+</body>
+</html>
