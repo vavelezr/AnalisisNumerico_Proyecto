@@ -65,3 +65,40 @@ def busqueda_incremental_view(request):
         return render(request, 'busqueda_incremental.html', {'solucion': solucion, 'tabla': tabla, 'tabla2': tabla2})
 
     return render(request, 'busqueda_incremental.html')
+
+
+
+def secante_view(request):
+    if request.method == 'POST':
+        funcion = request.POST.get('funcion')
+        niter = int(request.POST.get('niter'))
+        x0 = float(request.POST.get('x0'))
+        x1 = float(request.POST.get('x1'))
+        tol = float(request.POST.get('tol'))
+        terr=int(request.POST.get('terr'))
+
+        # Inicializar el motor de MATLAB
+        eng = matlab.engine.start_matlab()
+
+        # Llamar a la función de MATLAB para el método de la secante
+        respuesta, N, XN, fm, E,T = eng.Secante(funcion, x0, x1, tol, niter, terr, nargout=6)
+
+        # Detener el motor de MATLAB
+        eng.quit()
+
+        # Cargar datos del archivo CSV
+        tabla_csv = pd.read_csv("tablas/secante_tabla.csv")
+
+        # Convertir el DataFrame de pandas a una lista de diccionarios
+        tabla = tabla_csv.to_dict('records')
+
+        # Renderizar la plantilla con los datos del método de la secante
+        return render(request, 'secante.html', {
+            'respuesta': respuesta,
+            'tabla': tabla,
+            # Aquí puedes incluir otros datos que quieras enviar a la plantilla
+        })
+
+    return render(request, 'secante.html')
+
+
