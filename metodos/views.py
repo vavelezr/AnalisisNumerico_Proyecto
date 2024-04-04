@@ -102,3 +102,40 @@ def secante_view(request):
     return render(request, 'secante.html')
 
 
+
+def newton_view(request):
+    if request.method == 'POST':
+        funcion = request.POST.get('funcion')
+        niter = int(request.POST.get('niter'))
+        x0 = float(request.POST.get('x0'))
+        tol = float(request.POST.get('tol'))
+
+        # Inicializar el motor de MATLAB
+        eng = matlab.engine.start_matlab()
+
+        # Llamar a la función de MATLAB para el método de Newton
+        n, xn, fm, dfm, E , respuesta = eng.Newton(funcion, x0, tol, niter, nargout=6)
+
+        # Detener el motor de MATLAB
+        eng.quit()
+
+        # Cargar datos del archivo CSV
+        tabla_csv = pd.read_csv("tablas/newton_tabla.csv")
+
+        # Convertir el DataFrame de pandas a una lista de diccionarios
+        tabla = tabla_csv.to_dict('records')
+
+        # Renderizar la plantilla con los datos del método de Newton
+        return render(request, 'newton.html', {
+            'respuesta': respuesta,
+            'n': n,
+            'xn': xn,
+            'fm': fm,
+            'dfm': dfm,
+            'E': E,
+            'tabla': tabla
+        })
+
+    return render(request, 'newton.html')
+
+

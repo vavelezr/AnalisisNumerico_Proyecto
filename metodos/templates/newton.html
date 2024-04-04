@@ -2,10 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario y Resultado de Secante</title>
-    <!-- Asegúrate de incluir aquí tus estilos y/o referencias a hojas de estilo externas como en biseccion.html -->
-</head>
-<style>
+    <title>Formulario y Resultado de Newton</title>
+    <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -89,19 +87,18 @@
             transition: all 0.2s;
         }
     </style>
-
+</head>
 <body>
 <a href="{% url 'home' %}" class="btnHome">Home</a>
 <div class="container">
-    <h2>Secante</h2>
+    <h2>Newton</h2>
     <div class="explicacion">
-        <p>El método de la secante es un método numérico utilizado para encontrar las raíces de una función. Utiliza dos aproximaciones iniciales para la raíz y no requiere el uso de derivadas.</p>
-        <p>Para llenar este formulario tienes que utilizar OBLIGATORIAMENTE la notación de MATLAB.</p>
+        <p>El método de Newton es un método numérico que utiliza derivadas para encontrar las raíces de una función, mejorando progresivamente una estimación inicial.</p>
+        <p>Para llenar este formulario debes utilizar OBLIGATORIAMENTE la notación de MATLAB.</p>
         <p>Los errores deben ser escritos así: 0.5e-5.</p>
         <p>La función debe ser escrita de este modo: x^3-2*x^2+x-1.</p>
-        <p class="subtitle text-gray-700 display-6">El tipo de error está dado por 0 para error absoluto y 1 para error relativo. Ingrese el que corresponda, al ingresar un valor invalido por defecto se tomará el error relativo.</p>
     </div>
-    <h2>Formulario de Secante</h2>
+    <h2>Formulario de Newton</h2>
     <div class="form-container">
         <form action="#" method="POST">
             {% csrf_token %}
@@ -111,11 +108,7 @@
             </div>
             <div class="form-group">
                 <label for="x0">x0:</label>
-                <input type="text" id="x0" name="x0" placeholder="Ingrese x0" required>
-            </div>
-            <div class="form-group">
-                <label for="x1">x1:</label>
-                <input type="text" id="x1" name="x1" placeholder="Ingrese x1" required>
+                <input type="text" id="x0" name="x0" placeholder="Valor inicial x0" required>
             </div>
             <div class="form-group">
                 <label for="tol">Tol:</label>
@@ -125,18 +118,12 @@
                 <label for="niter">Niter:</label>
                 <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones" required>
             </div>
-            <div class="form-group">
-
-                <label for="terr">Terr:</label>
-                <input type="text" id="terr" name="terr" placeholder="Ingrese el número de terr" required>
-            </div>
-            <button type="submit">Guardar</button>
+            <button type="submit">Calcular</button>
         </form>
     </div>
     {% if respuesta %}
         <h3>Resultado:</h3>
         <p>{{ respuesta }}</p>
-    
     {% endif %}
 
     {% if tabla %}
@@ -146,14 +133,16 @@
                 <th>Iteración</th>
                 <th>xn</th>
                 <th>f(xn)</th>
+                <th>f'(xn)</th>
                 <th>Error</th>
             </tr>
             {% for row in tabla %}
             <tr>
-                <td>{{ row.Iteration }}</td>
+                <td>{{ row.i }}</td>
                 <td>{{ row.xn }}</td>
-                <td>{{ row.fxn }}</td>
-                <td>{{ row.E }}</td>
+                <td>{{ row.Fm }}</td>
+                <td>{{ row.dfm }}</td>
+                <td>{{ row.Error }}</td>
             </tr>
             {% endfor %}
         </table>

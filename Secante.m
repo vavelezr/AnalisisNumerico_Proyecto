@@ -12,7 +12,7 @@ function [respuesta,N,XN,fm, E,T] = Secante(func,x0,x1,Tol,niter,Terror)
         error=E(c+2);
         xn=x1;
         N(c+1)=c;
-        N(c+2)=c;
+        N(c+2)=c+1;
         XN(c+1)=x0;
         XN(c+2) = xn;
 
@@ -40,7 +40,7 @@ function [respuesta,N,XN,fm, E,T] = Secante(func,x0,x1,Tol,niter,Terror)
             xn=xm;
             
       
-            N(c+3)=c+1;
+            N(c+3)=c+2;
             c=c+1;
         end
 
