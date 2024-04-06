@@ -4,6 +4,7 @@ import pandas as pd
 import json
 import csv
 from .models import *
+import matplotlib.pyplot as plt
 # Create your views here.
 
 def home(request):
@@ -18,22 +19,26 @@ def biseccion_view(request):
         xs = float(request.POST.get('xs'))
         tol = float(request.POST.get('tol'))
 
-        # Inicializar el motor de MATLAB
         eng = matlab.engine.start_matlab()
-
-        # Llamar a la función de MATLAB
         respuesta, s, E, fm = eng.Biseccion(funcion, xi, xs, tol, niter, nargout=4)
-
-        # Detener el motor de MATLAB
         eng.quit()
 
-        # Preparar datos para enviar a la plantilla
-
-        # Cargar datos del archivo CSV
+        # Leer el archivo CSV con los datos de la tabla
         tabla_csv = pd.read_csv("tablas/biseccion_tabla.csv")
-        # Convertir el DataFrame de pandas a una lista de diccionarios para que pueda ser utilizado en la plantilla
+
+        # Graficar los datos
+        plt.plot(tabla_csv['Iteration'], tabla_csv['fxi'])  # Graficar fxi respecto a la iteración
+        plt.xlabel('Iteración')
+        plt.ylabel('f(xi)')
+        plt.title('Gráfico de f(xi) vs. Iteración')
+        plt.grid(True)
+        plt.savefig('media/grafico_biseccion.png')  # Guardar la imagen del gráfico
+        plt.close()
+    
         tabla = tabla_csv.to_dict('records')
-        return render(request, 'biseccion.html',{'respuesta': respuesta, 's': s, 'E': E, 'fm': fm, 'tabla': tabla})
+
+        # Pasar la ruta de la imagen del gráfico al template
+        return render(request, 'biseccion.html', {'respuesta': respuesta, 's': s, 'E': E, 'fm': fm, 'tabla': tabla, 'ruta_grafico': "media/grafico_biseccion.png"})
 
     return render(request, 'biseccion.html')
 
@@ -47,20 +52,13 @@ def busqueda_incremental_view(request):
         delta = float(request.POST.get('delta'))
         niter = int(request.POST.get('niter'))
 
-        # Inicializar el motor de MATLAB
-        eng = matlab.engine.start_matlab()
 
-        # Llamar a la función de MATLAB
+        eng = matlab.engine.start_matlab()
         solucion, tabla= eng.Bi(funcion, x0, delta, niter, nargout=2)
 
-        # Detener el motor de MATLAB
+
         eng.quit()
-
-        # Preparar datos para enviar a la plantilla
-
-        # Cargar datos del archivo CSV
         tabla_csv = pd.read_csv("tablas/busqueda_incremental_tabla.csv")
-        # Convertir el DataFrame de pandas a una lista de diccionarios para que pueda ser utilizado en la plantilla
         tabla2 = tabla_csv.to_dict('records')
         return render(request, 'busqueda_incremental.html', {'solucion': solucion, 'tabla': tabla, 'tabla2': tabla2})
 
@@ -77,26 +75,25 @@ def secante_view(request):
         tol = float(request.POST.get('tol'))
         terr=int(request.POST.get('terr'))
 
-        # Inicializar el motor de MATLAB
+
         eng = matlab.engine.start_matlab()
 
-        # Llamar a la función de MATLAB para el método de la secante
+
         respuesta, N, XN, fm, E,T = eng.Secante(funcion, x0, x1, tol, niter, terr, nargout=6)
 
-        # Detener el motor de MATLAB
+
         eng.quit()
 
-        # Cargar datos del archivo CSV
+
         tabla_csv = pd.read_csv("tablas/secante_tabla.csv")
 
-        # Convertir el DataFrame de pandas a una lista de diccionarios
+
         tabla = tabla_csv.to_dict('records')
 
-        # Renderizar la plantilla con los datos del método de la secante
+
         return render(request, 'secante.html', {
             'respuesta': respuesta,
             'tabla': tabla,
-            # Aquí puedes incluir otros datos que quieras enviar a la plantilla
         })
 
     return render(request, 'secante.html')
@@ -138,4 +135,27 @@ def newton_view(request):
 
     return render(request, 'newton.html')
 
+
+def regla_falsa_view(request):
+    if request.method == 'POST':
+        funcion = request.POST.get('funcion')
+        niter = int(request.POST.get('niter'))
+        x0 = float(request.POST.get('x0'))
+        x1 = float(request.POST.get('x1'))
+        tol = float(request.POST.get('tol'))
+        terr=int(request.POST.get('terr'))
+
+
+        eng = matlab.engine.start_matlab()
+
+
+        respuesta,T = eng.ReglaFalsa(funcion, x0, x1, tol, niter, terr, nargout=2)
+        eng.quit()
+
+        tabla_csv = pd.read_csv("tablas/regla_falsa_tabla.csv")
+        tabla = tabla_csv.to_dict('records')
+        respuesta = tabla[-1]['x_m']
+        return render(request, 'regla_falsa.html', {'respuesta': respuesta, 'tabla': tabla})
+
+    return render(request, 'regla_falsa.html')
 

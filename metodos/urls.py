@@ -6,5 +6,6 @@ urlpatterns = [
     path('busqueda-incremental/', views.busqueda_incremental_view, name="busqueda-incremental"),
     path('secante/', views.secante_view, name="secante"),
     path('newton/', views.newton_view, name="newton"),
+    path('regla-falsa/', views.regla_falsa_view, name="regla_falsa"),
 ]
 

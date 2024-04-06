@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario y Resultado de Bisección</title>
+    <title>Formulario y Resultado de Regla falsa</title>
+    <!-- Asegúrate de incluir aquí tus estilos y/o referencias a hojas de estilo externas como en biseccion.html -->
+</head>
 <style>
         body {
             font-family: Arial, sans-serif;
@@ -87,40 +89,45 @@
             transition: all 0.2s;
         }
     </style>
-</head>
+
 <body>
 <a href="{% url 'home' %}" class="btnHome">Home</a>
 <div class="container">
-    <h2>Bisección</h2>
+    <h2>Regla falsa</h2>
     <div class="explicacion">
-        <p>La bisección es un método numérico utilizado para encontrar las raíces de una función. Se basa en el teorema del valor intermedio, dividiendo repetidamente un intervalo en subintervalos más pequeños y seleccionando aquel en el que la función cambia de signo.</p>
-        <p> Para llenar este formulario tienes que utilizar OBLIGATORIAMENTE la notaciòn de matlab</p>
-        <p>Los errores deben ser escritos así: 0.5e-5</p>
-        <p>La función debe ser escrita de este modo: x^3-2*x^2+x-1</p>
+        <p>El método de </p>
+        <p>Los errores deben ser escritos así: 0.5e-5.</p>
+        <p>La función debe ser escrita de este modo: x^3-2*x^2+x-1.</p>
+        <p class="subtitle text-gray-700 display-6">El tipo de error está dado por 0 para error absoluto y 1 para error relativo. Ingrese el que corresponda, al ingresar un valor invalido por defecto se tomará el error relativo.</p>
     </div>
-    <h2>Formulario de Bisección</h2>
+    <h2>Formulario de Regla Falsa</h2>
     <div class="form-container">
         <form action="#" method="POST">
             {% csrf_token %}
             <div class="form-group">
                 <label for="funcion">Función:</label>
-                <input type="text" id="funcion" name="funcion" placeholder="Ingrese la función">
+                <input type="text" id="funcion" name="funcion" placeholder="Ingrese la función" required>
             </div>
             <div class="form-group">
-                <label for="xs">Xs:</label>
-                <input type="text" id="xs" name="xs" placeholder="Ingrese Xs">
+                <label for="x0">x0:</label>
+                <input type="text" id="x0" name="x0" placeholder="Ingrese x0" required>
             </div>
             <div class="form-group">
-                <label for="xi">Xi:</label>
-                <input type="text" id="xi" name="xi" placeholder="Ingrese Xi">
+                <label for="x1">x1:</label>
+                <input type="text" id="x1" name="x1" placeholder="Ingrese x1" required>
             </div>
             <div class="form-group">
                 <label for="tol">Tol:</label>
-                <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia">
+                <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia" required>
             </div>
             <div class="form-group">
                 <label for="niter">Niter:</label>
-                <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones">
+                <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones" required>
+            </div>
+            <div class="form-group">
+
+                <label for="terr">Terr:</label>
+                <input type="text" id="terr" name="terr" placeholder="Ingrese el número de terr" required>
             </div>
             <button type="submit">Guardar</button>
         </form>
@@ -128,37 +135,39 @@
     {% if respuesta %}
         <h3>Resultado:</h3>
         <p>{{ respuesta }}</p>
-        <p>Solución aproximada: {{ s }}</p>
-        <p>Error: {{ E }}</p>
-
+    
     {% endif %}
 
     {% if tabla %}
-    <h3>Tabla de iteraciones:</h3>
-    <table border="1">
-        <tr>
-            <th>Iteración</th>
-            <th>a</th>
-            <th>xi</th>
-            <th>b</th>
-            <th>f(xi)</th>
-            <th>Error</th>
-        </tr>
-        {% for row in tabla %}
-        <tr>
-            <td>{{ row.Iteration }}</td>
-            <td>{{ row.a }}</td>
-            <td>{{ row.xi }}</td>
-            <td>{{ row.b }}</td>
-            <td>{{ row.fxi }}</td>
-            <td>{{ row.Error }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div style="overflow-x: auto;">
+
+        <h3>Tabla de iteraciones:</h3>
+        <table border="1">
+            <tr>
+                <th>Iteración</th>
+                <th>x_m</th>
+                <th>x_i (Limite inferior)</th>
+                <th>x_s (Limite superior)</th>
+                <th>f(x_m)</th>
+                <th>f_i</th>
+                <th>f_s</th>
+                <th>Error</th>
+            </tr>
+            {% for row in tabla %}
+            <tr>
+                <td>{{ row.n }}</td>
+                <td>{{ row.x_m }}</td>
+                <td>{{ row.x_i }}</td>
+                <td>{{ row.x_s }}</td>
+                <td>{{ row.f_m }}</td>
+                <td>{{ row.f_i }}</td>
+                <td>{{ row.f_s }}</td>
+                <td>{{ row.E }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     {% endif %}
-        {% if ruta_grafico %}
-        <h3>Gráfico de Resultados</h3>
-        <img src="{{ ruta_grafico }}" alt="Gráfico de Resultados">
-    {% endif %}
+    </div>
+</div>
 </body>
 </html>
