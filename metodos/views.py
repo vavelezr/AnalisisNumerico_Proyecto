@@ -154,8 +154,40 @@ def regla_falsa_view(request):
 
         tabla_csv = pd.read_csv("tablas/regla_falsa_tabla.csv")
         tabla = tabla_csv.to_dict('records')
-        respuesta = tabla[-1]['x_m']
+
         return render(request, 'regla_falsa.html', {'respuesta': respuesta, 'tabla': tabla})
 
     return render(request, 'regla_falsa.html')
+
+
+def punto_fijo_view(request):
+    if request.method == 'POST':
+        # Recopilación de datos del formulario
+        funcion = request.POST.get('funcion')
+        funciong = request.POST.get('funciong')
+        x0 = float(request.POST.get('x0'))
+        tol = float(request.POST.get('tol'))
+        niter = int(request.POST.get('niter'))
+        tipo_error = int(request.POST.get('tipo_error'))
+
+        eng = matlab.engine.start_matlab()
+        n, xn, fm, E, respuesta = eng.PuntoFijo(funcion, funciong, x0, tol, niter, tipo_error, nargout=5)
+        eng.quit()
+
+        tabla_csv = pd.read_csv("tablas/punto_fijo_tabla.csv")
+        tabla = tabla_csv.to_dict('records')
+
+        # El último valor de xn y E para mostrar
+        s = xn[-1] if xn else None
+        ultimo_error = E[-1] if E else None
+
+        return render(request, 'punto_fijo.html', {
+            'respuesta': respuesta,
+            's': s,
+            'E': ultimo_error,
+            'tabla': tabla
+        })
+
+    return render(request, 'punto_fijo.html')
+
 

@@ -93,28 +93,29 @@
 <body>
 <a href="{% url 'home' %}" class="btnHome">Home</a>
 <div class="container">
-    <h2>Regla falsa</h2>
+    <h2>Punto Fijo</h2>
     <div class="explicacion">
-        <p>El método de </p>
+        <p>El método de Punto fijo</p>
         <p>Los errores deben ser escritos así: 0.5e-5.</p>
-        <p>La función debe ser escrita de este modo: x^3-2*x^2+x-1.</p>
+        <p>F puede ser escrita así sin(x-A*10^(-3))-x </p>
+        <p>La función debe ser escrita de este modo: sin(x-A*10^(-3)).  (Esa es g)</p>
         <p class="subtitle text-gray-700 display-6">El tipo de error está dado por 0 para error absoluto y 1 para error relativo. Ingrese el que corresponda, al ingresar un valor invalido por defecto se tomará el error relativo.</p>
     </div>
-    <h2>Formulario de Regla Falsa</h2>
+    <h2>Formulario de Punto Fijo</h2>
     <div class="form-container">
         <form action="#" method="POST">
             {% csrf_token %}
             <div class="form-group">
-                <label for="funcion">Función:</label>
-                <input type="text" id="funcion" name="funcion" placeholder="Ingrese la función" required>
+                <label for="funcion">Función f:</label>
+                <input type="text" id="funcion" name="funcion" placeholder="Ingrese la función f" required>
             </div>
             <div class="form-group">
-                <label for="x0">x0:</label>
+                <label for="x0">Función g:</label>
+                <input type="text" id="funciong" name="funciong" placeholder="Ingrese la función g" required>
+            </div>
+            <div class="form-group">
+                <label for="x1">x0:</label>
                 <input type="text" id="x0" name="x0" placeholder="Ingrese x0" required>
-            </div>
-            <div class="form-group">
-                <label for="x1">x1:</label>
-                <input type="text" id="x1" name="x1" placeholder="Ingrese x1" required>
             </div>
             <div class="form-group">
                 <label for="tol">Tol:</label>
@@ -127,7 +128,7 @@
             <div class="form-group">
 
                 <label for="terr">Terr:</label>
-                <input type="text" id="terr" name="terr" placeholder="Ingrese el número de terr" required>
+                <input type="text" id="tipo_error" name="tipo_error" placeholder="Ingrese el número de terr" required>
             </div>
             <button type="submit">Guardar</button>
         </form>
@@ -135,9 +136,7 @@
     {% if respuesta %}
         <h3>Resultado:</h3>
         <p>{{ respuesta }}</p>
-    
     {% endif %}
-
     {% if tabla %}
     <div style="overflow-x: auto;">
 
@@ -145,24 +144,16 @@
         <table border="1">
             <tr>
                 <th>Iteración</th>
-                <th>xm</th>
-                <th>Limite inferior</th>
-                <th>Limite superior</th>
-                <th>f(xm)</th>
-                <th>fi</th>
-                <th>fs</th>
+                <th>xi</th>
+                <th>f(xi)</th>
                 <th>Error</th>
             </tr>
             {% for row in tabla %}
             <tr>
-                <td>{{ row.n }}</td>
-                <td>{{ row.x_m }}</td>
-                <td>{{ row.x_i }}</td>
-                <td>{{ row.x_s }}</td>
-                <td>{{ row.f_m }}</td>
-                <td>{{ row.f_i }}</td>
-                <td>{{ row.f_s }}</td>
-                <td>{{ row.E }}</td>
+                <td>{{ row.Iteration }}</td>
+                <td>{{ row.xi }}</td>
+                <td>{{ row.fxi }}</td>
+                <td>{{ row.Error }}</td>
             </tr>
             {% endfor %}
         </table>
