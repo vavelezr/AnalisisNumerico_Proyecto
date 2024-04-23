@@ -87,6 +87,14 @@ def secante_view(request):
 
         tabla_csv = pd.read_csv("tablas/secante_tabla.csv")
 
+        # Graficar los datos
+        plt.plot(tabla_csv['Iteration'], tabla_csv['fxn'])  # Graficar fxi respecto a la iteración
+        plt.xlabel('Iteración')
+        plt.ylabel('f(xn)')
+        plt.title('Gráfico de f(xn) vs. Iteración')
+        plt.grid(True)
+        plt.savefig("./media/grafico_secante.png")  # Guardar la imagen del gráfico
+        plt.close()
 
         tabla = tabla_csv.to_dict('records')
 
@@ -94,6 +102,7 @@ def secante_view(request):
         return render(request, 'secante.html', {
             'respuesta': respuesta,
             'tabla': tabla,
+            'ruta_grafico': "media/grafico_secante.png"
         })
 
     return render(request, 'secante.html')
@@ -106,19 +115,30 @@ def newton_view(request):
         niter = int(request.POST.get('niter'))
         x0 = float(request.POST.get('x0'))
         tol = float(request.POST.get('tol'))
+        terr=int(request.POST.get('terr'))
 
         # Inicializar el motor de MATLAB
         eng = matlab.engine.start_matlab()
 
         # Llamar a la función de MATLAB para el método de Newton
-        n, xn, fm, dfm, E , respuesta = eng.Newton(funcion, x0, tol, niter, nargout=6)
+        n, xn, fm, dfm, E , respuesta = eng.Newton(funcion, x0, tol, niter,terr, nargout=6)
 
         # Detener el motor de MATLAB
         eng.quit()
 
         # Cargar datos del archivo CSV
         tabla_csv = pd.read_csv("tablas/newton_tabla.csv")
-
+        
+        # Graficar los datos
+        plt.plot(tabla_csv['i'], tabla_csv['Fm'])  # Graficar fxi respecto a la iteración
+        plt.xlabel('Iteración')
+        plt.ylabel('fm')
+        plt.title('Gráfico de fm vs. Iteración')
+        plt.grid(True)
+        plt.savefig('media/grafico_newton.png')  # Guardar la imagen del gráfico
+        plt.close()
+        
+        
         # Convertir el DataFrame de pandas a una lista de diccionarios
         tabla = tabla_csv.to_dict('records')
 
@@ -130,7 +150,8 @@ def newton_view(request):
             'fm': fm,
             'dfm': dfm,
             'E': E,
-            'tabla': tabla
+            'tabla': tabla,
+            'ruta_grafico': "media/grafico_newton.png"
         })
 
     return render(request, 'newton.html')

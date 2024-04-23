@@ -1,4 +1,4 @@
-function [n, xn, fm, dfm, E, respuesta] = Newton(func,x0, Tol, niter)
+function [n, xn, fm, dfm, E, respuesta] = Newton(func,x0, Tol, niter,Terror)
     syms x
     f(x) = str2sym(func);
     %f(x) = ((exp(x)) / x) + 3;
@@ -21,8 +21,16 @@ function [n, xn, fm, dfm, E, respuesta] = Newton(func,x0, Tol, niter)
         fe = fm(c + 2);
         dfm = eval(subs(df, xn));
         dfe = dfm;
-        E(c + 2) = abs(xn - x0);
+
+        if Terror == 0
+            E(c+2)=abs(xn-x0);
+        else
+            E(c+2)=abs((xn-x0)/xn);
+        end
+        
         error = E(c + 2);
+
+
         x0 = xn;
         c = c + 1;
 

@@ -34,7 +34,7 @@ function [respuesta,N,XN,fm, E,T] = Secante(func,x0,x1,Tol,niter,Terror)
             end
 
             error=E(c+3);
-            
+
 
             x0=xn;
             xn=xm;
@@ -48,7 +48,7 @@ function [respuesta,N,XN,fm, E,T] = Secante(func,x0,x1,Tol,niter,Terror)
            respuesta=sprintf('%f es raiz de f(x) \n',xn)
            E(c+3)=0
 
-        elseif error<Tol
+        elseif error<=Tol
            respuesta=sprintf('%f es una aproximación de una raiz de f(x) con una tolerancia= %f \n',xn,Tol)
 
         else 

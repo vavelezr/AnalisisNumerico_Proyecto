@@ -97,6 +97,7 @@
         <p>Para llenar este formulario debes utilizar OBLIGATORIAMENTE la notación de MATLAB.</p>
         <p>Los errores deben ser escritos así: 0.5e-5.</p>
         <p>La función debe ser escrita de este modo: x^3-2*x^2+x-1.</p>
+        <p class="subtitle text-gray-700 display-6">El tipo de error está dado por 0 para error absoluto y 1 para error relativo. Ingrese el que corresponda, al ingresar un valor invalido por defecto se tomará el error relativo.</p>
     </div>
     <h2>Formulario de Newton</h2>
     <div class="form-container">
@@ -117,6 +118,10 @@
             <div class="form-group">
                 <label for="niter">Niter:</label>
                 <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones" required>
+            </div>
+            <div class="form-group">
+                <label for="terr">Terr:</label>
+                <input type="text" id="terr" name="terr" placeholder="Ingrese el número de terr" required>
             </div>
             <button type="submit">Calcular</button>
         </form>
@@ -146,6 +151,10 @@
             </tr>
             {% endfor %}
         </table>
+    {% endif %}
+    {% if ruta_grafico %}
+        <h3>Gráfico de Resultados</h3>
+        <img src="{{ ruta_grafico }}" alt="Gráfico de Resultados">
     {% endif %}
 </div>
 </body>
