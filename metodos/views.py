@@ -5,6 +5,8 @@ import json
 import csv
 from .models import *
 import matplotlib.pyplot as plt
+import numpy as np
+import scipy.io
 # Create your views here.
 
 def home(request):
@@ -210,5 +212,53 @@ def punto_fijo_view(request):
         })
 
     return render(request, 'punto_fijo.html')
+
+def sor_view(request):
+    if request.method == 'POST':
+        # Recopilación de datos del formulario
+        tol = float(request.POST.get('tol'))
+        niter = int(request.POST.get('niter'))
+        w= float(request.POST.get('w'))
+        tipo_error = int(request.POST.get('tipo_error'))
+
+        x0_str = request.POST.get('x0')
+        A_str = request.POST.get('A')
+        b_str = request.POST.get('b')
+
+        # Función auxiliar para convertir cadenas a array numpy
+        def parse_input(vector_str):
+            try:
+                # Convierte cadena a lista y luego a array numpy
+                vector = np.array(eval(vector_str))
+                return vector
+            except:
+                return None
+
+        # Parsear las entradas
+        x0 = parse_input(x0_str)
+        A = parse_input(A_str)
+        b = parse_input(b_str)
+
+        eng = matlab.engine.start_matlab()
+        radio, E, respuesta = eng.Sor(x0, A, b,tol,niter,w, tipo_error, nargout=3)
+        eng.quit()
+
+        tabla_csv = pd.read_csv("tablas/tabla_sor.csv")
+        tabla = tabla_csv.to_dict('records')
+        columnas = tabla_csv.columns.tolist()
+
+        # El último valor de xn y E para mostrar
+        s = respuesta[-1] if respuesta else None
+        ultimo_error = E[-1] if E else None
+
+        return render(request, 'sor.html', {
+            'respuesta': respuesta,
+            'E': ultimo_error,
+            'radio':radio,
+            'tabla': tabla,
+            'columnas':columnas,
+        })
+
+    return render(request, 'sor.html')
 
 
