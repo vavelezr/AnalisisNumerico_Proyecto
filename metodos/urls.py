@@ -9,5 +9,6 @@ urlpatterns = [
     path('regla-falsa/', views.regla_falsa_view, name="regla_falsa"),
     path('punto-fijo/', views.punto_fijo_view, name="punto_fijo"),
     path('sor/', views.sor_view, name="sor"),
+    path('newton_m2/', views.newton_m2_view, name="newton_m2"),
 ]
 

@@ -158,6 +158,32 @@ def newton_view(request):
 
     return render(request, 'newton.html')
 
+def newton_m2_view(request):
+    if request.method == 'POST':
+        funcion = request.POST.get('funcion')
+        niter = int(request.POST.get('niter'))
+        x0 = float(request.POST.get('x0'))
+        tol = float(request.POST.get('tol'))
+
+        eng = matlab.engine.start_matlab()
+
+        N,s,fm,dfm,E,respuesta = eng.NewtonM2(funcion,x0,tol,niter, nargout = 6)
+
+        eng.quit()
+
+        tabla_csv = pd.read_csv("tablas/newton_m2_tabla.csv")
+        tabla = tabla_csv.to_dict('records')
+
+        return render(request, 'newton_m2.html', {
+            'respuesta': respuesta,
+            'n': N,
+            'fm': fm,
+            'dfm': dfm,
+            'E': E,
+            'tabla':tabla
+        })
+    return render(request, 'newton_m2.html')
+
 
 def regla_falsa_view(request):
     if request.method == 'POST':
