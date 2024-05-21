@@ -71,7 +71,7 @@ function [respuesta, s, E, fm] = Biseccion(func, xi, xs, Tol, niter)
 
 
         % Creación de la tabla de resultados
-        tabla = table(Iteration', a', Xm', b', func', Error', 'VariableNames', {'Iteración', 'Límite Inferior', 'xi', 'Límite Superior', 'f(xi)', 'Error'});
+        tabla = table(Iteration', a', Xm', b', func', Error', 'VariableNames', {'Iteración', 'a', 'xi', 'b', 'fxi', 'Error'});
         csv_file_path = "tablas/biseccion_tabla.csv"; % Ruta para guardar la tabla de resultados
         
         writetable(tabla, csv_file_path);

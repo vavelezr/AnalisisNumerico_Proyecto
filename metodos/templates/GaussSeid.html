@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método de Gauss-Seidel</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 20px;
+        }
+
+        td, th {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        input {
+            width: 40px;
+            text-align: center;
+        }
+
+        .small-input {
+            width: 100px; /* Puedes ajustar este tamaño según sea necesario */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Método de Gauss-Seidel y Jacobi</h2>
+
+        <!-- Formulario para definir el tamaño de la matriz -->
+        <form id="tamanioForm" class="form-inline mb-3 mt-5">
+            <div class="form-group mr-2">
+                <label for="filas" class="mr-2">Tamaño de la matriz: </label>
+                <input type="number" id="filas" name="filas" min="1" class="form-control" required>
+            </div>
+            <button type="button" onclick="generarMatrices()" class="btn btn-primary">Generar Matriz</button>
+        </form>
+
+        <div class="container mt-4 mb-4">
+            <div class="row">
+                <div class="col-md-5">
+                    <h4>A</h4>
+                </div>
+                <div class="col-md-5">
+                    <h4>b</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4>x0</h4>
+                </div>
+            </div>
+        </div>
+
+        <form id="matricesForm" method="post" onsubmit="guardarMatrices(); return false;">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-4">
+                    <table id="matrizInput" class="table table-bordered">
+                        <!-- La tabla se generará dinámicamente con JavaScript -->
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <table id="matrizInputB" class="table table-bordered">
+                        <!-- La tabla se generará dinámicamente con JavaScript -->
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <table id="matrizInputx0" class="table table-bordered">
+                        <!-- La tabla se generará dinámicamente con JavaScript -->
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="tolerancia">Tolerancia:</label>
+                    <input type="text" id="tolerancia" name="tol" class="form-control small-input" placeholder="Tol">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="iteraciones"># de Iteraciones:</label>
+                    <input type="number" id="niter" name="niter" class="form-control small-input" placeholder="Niter">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="met">Método a utilizar:</label>
+                    <select id="met" name="met" class="form-control small-input">
+                        <option value="0">Jacobi</option>
+                        <option value="1">Gauss Seidel</option>
+                    </select>
+                </div>
+            </div>
+
+            <center><button type="submit" class="btn btn-success">Ejecutar Método</button></center>
+        </form>
+
+        <h3>Resultado Tabla</h3>
+        <div style="overflow-x: auto;">
+            <table class="table table-bordered" id="tablaDatos">
+                <thead>
+                    <tr id="encabezado"></tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <p><strong>El radio espectral de la matriz de transición es: </strong> <span id="radio"></span></p>
+
+        <script>
+            function generarMatrices() {
+                generarMatrizA();
+                generarMatrizB();
+                generarMatrizX0();
+            }
+
+            function generarMatrizA() {
+                var filas = parseInt(document.getElementById("filas").value);
+                var tabla = document.getElementById("matrizInput");
+
+                // Limpiar la tabla
+                tabla.innerHTML = '';
+
+                for (var i = 0; i < filas; i++) {
+                    var fila = tabla.insertRow(i);
+
+                    for (var j = 0; j < filas; j++) {
+                        var celda = fila.insertCell(j);
+                        var input = document.createElement("input");
+                        input.type = "number";
+                        input.name = "A[" + i + "][" + j + "]";
+                        input.step = "any";
+                        input.value = 0;  // Valor por defecto
+                        celda.appendChild(input);
+                    }
+                }
+            }
+
+            function generarMatrizB() {
+                var filas = parseInt(document.getElementById("filas").value);
+                var columnas = 1;
+                var tabla = document.getElementById("matrizInputB");
+
+                // Limpiar la tabla
+                tabla.innerHTML = '';
+
+                for (var i = 0; i < filas; i++) {
+                    var fila = tabla.insertRow(i);
+
+                    for (var j = 0; j < columnas; j++) {
+                        var celda = fila.insertCell(j);
+                        var input = document.createElement("input");
+                        input.type = "number";
+                        input.name = "b[" + i + "]";
+                        input.step = "any";
+                        input.value = 0;  // Valor por defecto
+                        celda.appendChild(input);
+                    }
+                }
+            }
+
+            function generarMatrizX0() {
+                var filas = parseInt(document.getElementById("filas").value);
+                var columnas = 1;
+                var tabla = document.getElementById("matrizInputx0");
+
+                // Limpiar la tabla
+                tabla.innerHTML = '';
+
+                for (var i = 0; i < filas; i++) {
+                    var fila = tabla.insertRow(i);
+
+                    for (var j = 0; j < columnas; j++) {
+                        var celda = fila.insertCell(j);
+                        var input = document.createElement("input");
+                        input.type = "number";
+                        input.name = "x0[" + i + "]";
+                        input.step = "any";
+                        input.value = 0;  // Valor por defecto
+                        celda.appendChild(input);
+                    }
+                }
+            }
+
+            function guardarMatrices() {
+                var matrizA = obtenerMatriz("matrizInput");
+                var matrizB = obtenerMatriz("matrizInputB");
+                var matrizX0 = obtenerMatriz("matrizInputx0");
+
+                var tol = document.getElementById("tolerancia").value;
+                var niter = document.getElementById("niter").value;
+                var met = document.getElementById("met").value;
+
+                // Obtener el token CSRF de la cookie
+                var csrftoken = getCookie('csrftoken');
+
+                // Enviar ambas matrices al servidor usando AJAX
+                $.ajax({
+                    url: "{% url 'gauss_seid' %}",
+                    type: "POST",
+                    data: {
+                        matrizA: JSON.stringify(matrizA),
+                        matrizB: JSON.stringify(matrizB),
+                        matrizX0: JSON.stringify(matrizX0),
+                        tol: tol,
+                        niter: niter,
+                        met: met,
+                    },
+                    headers: { "X-CSRFToken": csrftoken },
+                    success: function(data) {
+                        $('#radio').text(data.radio);
+
+                        // Llenar el encabezado de la tabla con las columnas
+                        var encabezado = $('#encabezado');
+                        encabezado.empty();
+                        $.each(data.columnas, function(index, columna) {
+                            encabezado.append('<th>' + columna + '</th>');
+                        });
+
+                        // Llenar la tabla con los datos recibidos
+                        var tbody = $('#tablaDatos tbody');
+                        tbody.empty();
+                        $.each(data.datos, function(index, fila) {
+                            var tr = $('<tr>');
+                            $.each(data.columnas, function(index, columna) {
+                                tr.append('<td>' + fila[columna] + '</td>');
+                            });
+                            tbody.append(tr);
+                        });
+                    },
+                    error: function(error) {
+                        console.error("Error al guardar las matrices:", error);
+                    }
+                });
+
+                return false;
+            }
+
+            function obtenerMatriz(tablaId) {
+                var matriz = [];
+                var filas = document.getElementById(tablaId).rows.length;
+
+                for (var i = 0; i < filas; i++) {
+                    var fila = document.getElementById(tablaId).rows[i];
+                    var columnas = fila.cells.length;
+                    var filaMatriz = [];
+
+                    for (var j = 0; j < columnas; j++) {
+                        var valor = fila.cells[j].getElementsByTagName("input")[0].value;
+                        filaMatriz.push(valor);
+                    }
+
+                    matriz.push(filaMatriz);
+                }
+
+                return matriz;
+            }
+
+            // Función para obtener el valor del token CSRF de la cookie
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        </script>
+    </div>
+</body>
+</html>

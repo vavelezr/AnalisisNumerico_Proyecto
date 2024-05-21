@@ -2,11 +2,15 @@ from django.shortcuts import render
 import matlab.engine
 import pandas as pd
 import json
+from django.http import JsonResponse
 import csv
 from .models import *
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.io
+import sympy as sp
+from sympy import lambdify, symbols, sympify
+import os
 # Create your views here.
 
 def home(request):
@@ -28,19 +32,39 @@ def biseccion_view(request):
         # Leer el archivo CSV con los datos de la tabla
         tabla_csv = pd.read_csv("tablas/biseccion_tabla.csv")
 
-        # Graficar los datos
-        plt.plot(tabla_csv['Iteration'], tabla_csv['fxi'])  # Graficar fxi respecto a la iteración
-        plt.xlabel('Iteración')
-        plt.ylabel('f(xi)')
-        plt.title('Gráfico de f(xi) vs. Iteración')
-        plt.grid(True)
-        plt.savefig('media/grafico_biseccion.png')  # Guardar la imagen del gráfico
-        plt.close()
-    
         tabla = tabla_csv.to_dict('records')
 
+        # Crear el gráfico de la función
+        x = sp.symbols('x')
+        f = sp.sympify(funcion)
+        f_lambdified = sp.lambdify(x, f, 'numpy')
+
+        x_vals = np.linspace(xi, xs, 400)
+        y_vals = f_lambdified(x_vals)
+
+        plt.figure()
+        plt.plot(x_vals, y_vals, label=f'f(x) = {funcion}')
+        plt.axhline(0, color='black', linewidth=0.5)
+        plt.axvline(0, color='black', linewidth=0.5)
+        plt.title('Gráfico de la Función')
+        plt.xlabel('x')
+        plt.ylabel('f(x)')
+        plt.legend()
+        plt.grid(True)
+
+        grafico_funcion_path = os.path.join('static', 'images', 'funcion_grafico.png')
+        plt.savefig(grafico_funcion_path)
+        plt.close()
+
         # Pasar la ruta de la imagen del gráfico al template
-        return render(request, 'biseccion.html', {'respuesta': respuesta, 's': s, 'E': E, 'fm': fm, 'tabla': tabla, 'ruta_grafico': "media/grafico_biseccion.png"})
+        return render(request, 'biseccion.html', {
+            'respuesta': respuesta, 
+            's': s, 
+            'E': E, 
+            'fm': fm, 
+            'tabla': tabla,
+            'ruta_grafico_funcion': '/' + grafico_funcion_path.replace(os.path.sep, '/'),  # Ruta relativa para la imagen de la función
+        })
 
     return render(request, 'biseccion.html')
 
@@ -75,36 +99,43 @@ def secante_view(request):
         x0 = float(request.POST.get('x0'))
         x1 = float(request.POST.get('x1'))
         tol = float(request.POST.get('tol'))
-        terr=int(request.POST.get('terr'))
-
+        terr = int(request.POST.get('terr'))
 
         eng = matlab.engine.start_matlab()
 
-
-        respuesta, N, XN, fm, E,T = eng.Secante(funcion, x0, x1, tol, niter, terr, nargout=6)
-
+        respuesta, N, XN, fm, E, T = eng.Secante(funcion, x0, x1, tol, niter, terr, nargout=6)
 
         eng.quit()
 
-
         tabla_csv = pd.read_csv("tablas/secante_tabla.csv")
-
-        # Graficar los datos
-        plt.plot(tabla_csv['Iteration'], tabla_csv['fxn'])  # Graficar fxi respecto a la iteración
-        plt.xlabel('Iteración')
-        plt.ylabel('f(xn)')
-        plt.title('Gráfico de f(xn) vs. Iteración')
-        plt.grid(True)
-        plt.savefig("./media/grafico_secante.png")  # Guardar la imagen del gráfico
-        plt.close()
-
         tabla = tabla_csv.to_dict('records')
 
+        # Crear el gráfico de la función
+        x = sp.symbols('x')
+        f = sp.sympify(funcion)
+        f_lambdified = sp.lambdify(x, f, 'numpy')
+
+        x_vals = np.linspace(x0, x1, 400)
+        y_vals = f_lambdified(x_vals)
+
+        plt.figure()
+        plt.plot(x_vals, y_vals, label=f'f(x) = {funcion}')
+        plt.axhline(0, color='black', linewidth=0.5)
+        plt.axvline(0, color='black', linewidth=0.5)
+        plt.title('Gráfico de la Función')
+        plt.xlabel('x')
+        plt.ylabel('f(x)')
+        plt.legend()
+        plt.grid(True)
+
+        grafico_funcion_path = os.path.join('static', 'images', 'secante_funcion_grafico.png')
+        plt.savefig(grafico_funcion_path)
+        plt.close()
 
         return render(request, 'secante.html', {
             'respuesta': respuesta,
             'tabla': tabla,
-            'ruta_grafico': "media/grafico_secante.png"
+            'ruta_grafico_funcion': '/' + grafico_funcion_path.replace(os.path.sep, '/')
         })
 
     return render(request, 'secante.html')
@@ -117,34 +148,40 @@ def newton_view(request):
         niter = int(request.POST.get('niter'))
         x0 = float(request.POST.get('x0'))
         tol = float(request.POST.get('tol'))
-        terr=int(request.POST.get('terr'))
+        terr = int(request.POST.get('terr'))
 
-        # Inicializar el motor de MATLAB
         eng = matlab.engine.start_matlab()
 
-        # Llamar a la función de MATLAB para el método de Newton
-        n, xn, fm, dfm, E , respuesta = eng.Newton(funcion, x0, tol, niter,terr, nargout=6)
+        n, xn, fm, dfm, E, respuesta = eng.Newton(funcion, x0, tol, niter, terr, nargout=6)
 
-        # Detener el motor de MATLAB
         eng.quit()
 
-        # Cargar datos del archivo CSV
         tabla_csv = pd.read_csv("tablas/newton_tabla.csv")
-        
-        # Graficar los datos
-        plt.plot(tabla_csv['i'], tabla_csv['Fm'])  # Graficar fxi respecto a la iteración
-        plt.xlabel('Iteración')
-        plt.ylabel('fm')
-        plt.title('Gráfico de fm vs. Iteración')
-        plt.grid(True)
-        plt.savefig('media/grafico_newton.png')  # Guardar la imagen del gráfico
-        plt.close()
-        
-        
-        # Convertir el DataFrame de pandas a una lista de diccionarios
         tabla = tabla_csv.to_dict('records')
 
-        # Renderizar la plantilla con los datos del método de Newton
+        # Crear el gráfico de la función
+        x = sp.symbols('x')
+        f = sp.sympify(funcion)
+        f_lambdified = sp.lambdify(x, f, 'numpy')
+
+        x_vals = np.linspace(x0 - 5, x0 + 5, 400)
+        y_vals = f_lambdified(x_vals)
+
+        plt.figure()
+        plt.plot(x_vals, y_vals, label=f'f(x) = {funcion}')
+        plt.axhline(0, color='black', linewidth=0.5)
+        plt.axvline(0, color='black', linewidth=0.5)
+        plt.title('Gráfico de la Función')
+        plt.xlabel('x')
+        plt.ylabel('f(x)')
+        plt.legend()
+        plt.grid(True)
+        plt.ylim([-10, 10])
+
+        grafico_funcion_path = os.path.join('static', 'images', 'newton_funcion_grafico.png')
+        plt.savefig(grafico_funcion_path)
+        plt.close()
+
         return render(request, 'newton.html', {
             'respuesta': respuesta,
             'n': n,
@@ -153,7 +190,7 @@ def newton_view(request):
             'dfm': dfm,
             'E': E,
             'tabla': tabla,
-            'ruta_grafico': "media/grafico_newton.png"
+            'ruta_grafico_funcion': '/' + grafico_funcion_path.replace(os.path.sep, '/')
         })
 
     return render(request, 'newton.html')
@@ -167,12 +204,34 @@ def newton_m2_view(request):
 
         eng = matlab.engine.start_matlab()
 
-        N,s,fm,dfm,E,respuesta = eng.NewtonM2(funcion,x0,tol,niter, nargout = 6)
+        N, s, fm, dfm, E, respuesta = eng.NewtonM2(funcion, x0, tol, niter, nargout=6)
 
         eng.quit()
 
         tabla_csv = pd.read_csv("tablas/newton_m2_tabla.csv")
         tabla = tabla_csv.to_dict('records')
+
+        # Crear el gráfico de la función
+        x = sp.symbols('x')
+        f = sp.sympify(funcion)
+        f_lambdified = sp.lambdify(x, f, 'numpy')
+
+        x_vals = np.linspace(x0 - 5, x0 + 5, 400)
+        y_vals = f_lambdified(x_vals)
+
+        plt.figure()
+        plt.plot(x_vals, y_vals, label=f'f(x) = {funcion}')
+        plt.axhline(0, color='black', linewidth=0.5)
+        plt.axvline(0, color='black', linewidth=0.5)
+        plt.title('Gráfico de la Función')
+        plt.xlabel('x')
+        plt.ylabel('f(x)')
+        plt.legend()
+        plt.grid(True)
+
+        grafico_funcion_path = os.path.join('static', 'images', 'newton_m2_funcion_grafico.png')
+        plt.savefig(grafico_funcion_path)
+        plt.close()
 
         return render(request, 'newton_m2.html', {
             'respuesta': respuesta,
@@ -180,9 +239,14 @@ def newton_m2_view(request):
             'fm': fm,
             'dfm': dfm,
             'E': E,
-            'tabla':tabla
+            'tabla': tabla,
+            'ruta_grafico_funcion': '/' + grafico_funcion_path.replace(os.path.sep, '/')
         })
+
     return render(request, 'newton_m2.html')
+
+
+
 
 
 def regla_falsa_view(request):
@@ -192,21 +256,46 @@ def regla_falsa_view(request):
         x0 = float(request.POST.get('x0'))
         x1 = float(request.POST.get('x1'))
         tol = float(request.POST.get('tol'))
-        terr=int(request.POST.get('terr'))
-
+        terr = int(request.POST.get('terr'))
 
         eng = matlab.engine.start_matlab()
 
-
-        respuesta,T = eng.ReglaFalsa(funcion, x0, x1, tol, niter, terr, nargout=2)
+        respuesta, T = eng.ReglaFalsa(funcion, x0, x1, tol, niter, terr, nargout=2)
         eng.quit()
 
         tabla_csv = pd.read_csv("tablas/regla_falsa_tabla.csv")
         tabla = tabla_csv.to_dict('records')
 
-        return render(request, 'regla_falsa.html', {'respuesta': respuesta, 'tabla': tabla})
+        # Crear el gráfico de la función
+        x = sp.symbols('x')
+        f = sp.sympify(funcion)
+        f_lambdified = sp.lambdify(x, f, 'numpy')
+
+        x_vals = np.linspace(x0, x1, 400)
+        y_vals = f_lambdified(x_vals)
+
+        plt.figure()
+        plt.plot(x_vals, y_vals, label=f'f(x) = {funcion}')
+        plt.axhline(0, color='black', linewidth=0.5)
+        plt.axvline(0, color='black', linewidth=0.5)
+        plt.title('Gráfico de la Función')
+        plt.xlabel('x')
+        plt.ylabel('f(x)')
+        plt.legend()
+        plt.grid(True)
+
+        grafico_funcion_path = os.path.join('static', 'images', 'regla_falsa_funcion_grafico.png')
+        plt.savefig(grafico_funcion_path)
+        plt.close()
+
+        return render(request, 'regla_falsa.html', {
+            'respuesta': respuesta,
+            'tabla': tabla,
+            'ruta_grafico_funcion': '/' + grafico_funcion_path.replace(os.path.sep, '/')
+        })
 
     return render(request, 'regla_falsa.html')
+
 
 
 def punto_fijo_view(request):
@@ -226,15 +315,37 @@ def punto_fijo_view(request):
         tabla_csv = pd.read_csv("tablas/punto_fijo_tabla.csv")
         tabla = tabla_csv.to_dict('records')
 
-        # El último valor de xn y E para mostrar
-        s = xn[-1] if xn else None
-        ultimo_error = E[-1] if E else None
+        # Graficar ambas funciones
+        x_vals = np.linspace(x0 - 5, x0 + 5, 400)
+        
+        f_lambdified = lambdify(symbols('x'), sympify(funcion))
+        g_lambdified = lambdify(symbols('x'), sympify(funciong))
+        
+        y_vals_f = f_lambdified(x_vals)
+        y_vals_g = g_lambdified(x_vals)
+
+        plt.figure()
+        plt.plot(x_vals, y_vals_f, label=f'f(x) = {funcion}', color='blue')
+        plt.plot(x_vals, y_vals_g, label=f'g(x) = {funciong}', color='red')
+        plt.axhline(0, color='black', linewidth=0.5)
+        plt.axvline(0, color='black', linewidth=0.5)
+        plt.title('Gráfico de las Funciones f y g')
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.legend()
+        plt.grid(True)
+        plt.ylim([-10, 10])
+
+        grafico_funcion_path = os.path.join('static', 'images', 'punto_fijo_funcion_grafico.png')
+        plt.savefig(grafico_funcion_path)
+        plt.close()
 
         return render(request, 'punto_fijo.html', {
             'respuesta': respuesta,
-            's': s,
-            'E': ultimo_error,
-            'tabla': tabla
+            's': xn[-1] if xn else None,
+            'E': E[-1] if E else None,
+            'tabla': tabla,
+            'ruta_grafico_funcion': '/' + grafico_funcion_path.replace(os.path.sep, '/')
         })
 
     return render(request, 'punto_fijo.html')
@@ -287,4 +398,42 @@ def sor_view(request):
 
     return render(request, 'sor.html')
 
+def gauss_seid_view(request):
+    if request.method == 'POST':
+        try:
+            # Recopilar datos del formulario
+            matriz_a = json.loads(request.POST.get('matrizA'))
+            matriz_b = json.loads(request.POST.get('matrizB'))
+            matriz_x0 = json.loads(request.POST.get('matrizX0'))
+            tol = float(request.POST.get('tol'))
+            niter = int(request.POST.get('niter'))
+            met = int(request.POST.get('met'))
 
+            # Convertir las matrices a formato adecuado para MATLAB
+            matA = [[float(element) for element in sublist] for sublist in matriz_a]
+            matB = [float(element) for element in matriz_b]
+            matX0 = [float(element) for element in matriz_x0]
+
+            # Iniciar el motor de MATLAB
+            eng = matlab.engine.start_matlab()
+
+            # Convertir las matrices a tipos de datos MATLAB
+            A = matlab.double(matA)
+            b = matlab.double(matB)
+            x0 = matlab.double(matX0)
+
+            # Llamar a la función MATLAB
+            radio, E, respuesta = eng.MatGaussSeid(x0, A, b, tol, niter, met, nargout=3)
+            eng.quit()
+
+            # Leer la tabla generada por MATLAB desde el archivo CSV
+            df = pd.read_csv('tablas/GaussSeid_tabla.csv')
+            df = df.astype(str)
+            data = df.to_dict(orient='records')
+            columnas = df.columns.tolist()
+
+            return JsonResponse({"columnas": columnas, "datos": data, "radio": radio, "error": E}, safe=False)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    else:
+        return render(request, 'GaussSeid.html')
