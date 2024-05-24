@@ -437,3 +437,25 @@ def gauss_seid_view(request):
             return JsonResponse({"error": str(e)}, status=400)
     else:
         return render(request, 'GaussSeid.html')
+    
+def newton_int_view(request):
+    if request.method == 'POST':
+        x = request.POST.get('x')
+        y = request.POST.get('y')
+        
+        eng = matlab.engine.start_matlab()
+
+        coef, pol, polT = eng.NewtonIntComp(x, y, nargout = 3)
+
+        eng.quit()
+
+        tabla_csv = pd.read_csv("tablas/newtonIntComp.csv", header=None)
+        tabla = tabla_csv.values.tolist()
+
+        return render(request, 'newtonInt.html', {
+            'Tabla': tabla,
+            'coeficientes': coef,
+            'polinomioC': pol,
+            'polinomio': polT,
+        })
+    return render(request, 'newtonInt.html')

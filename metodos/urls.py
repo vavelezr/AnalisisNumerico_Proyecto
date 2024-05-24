@@ -15,5 +15,8 @@ urlpatterns = [
     #Capitulo 2
     path('sor/', views.sor_view, name="sor"),
     path('gauss_seid/', views.gauss_seid_view, name="gauss_seid"),
+
+    #Capitulo 3
+    path('newtonInt/', views.newton_int_view, name='newton-int'),
 ]
 
