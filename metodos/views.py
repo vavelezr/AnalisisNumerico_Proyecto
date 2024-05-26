@@ -484,9 +484,12 @@ def vander_view(request):
         tabla_csv = pd.read_csv("tablas/vander1.csv", header=None)
         tabla = tabla_csv.values.tolist()
 
+        grafico_funcion_path = os.path.join('static', 'images', 'vander1.png')
+
         return render(request, 'vander.html', {
             'Tabla': tabla,
             'coeficientes': a,
             'polinomio': pol,
+            'grafico': '/' + grafico_funcion_path.replace(os.path.sep, '/'),
         })
     return render(request, 'vander.html')
