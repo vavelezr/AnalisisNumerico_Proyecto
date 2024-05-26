@@ -400,43 +400,51 @@ def sor_view(request):
 
 def gauss_seid_view(request):
     if request.method == 'POST':
-        try:
-            # Recopilar datos del formulario
-            matriz_a = json.loads(request.POST.get('matrizA'))
-            matriz_b = json.loads(request.POST.get('matrizB'))
-            matriz_x0 = json.loads(request.POST.get('matrizX0'))
-            tol = float(request.POST.get('tol'))
-            niter = int(request.POST.get('niter'))
-            met = int(request.POST.get('met'))
+        # Recopilación de datos del formulario
+        tol = float(request.POST.get('tol'))
+        niter = int(request.POST.get('niter'))
+        met= int(request.POST.get('met'))
+        print(met)
 
-            # Convertir las matrices a formato adecuado para MATLAB
-            matA = [[float(element) for element in sublist] for sublist in matriz_a]
-            matB = [float(element) for element in matriz_b]
-            matX0 = [float(element) for element in matriz_x0]
+        x0_str = request.POST.get('x0')
+        A_str = request.POST.get('A')
+        b_str = request.POST.get('b')
 
-            # Iniciar el motor de MATLAB
-            eng = matlab.engine.start_matlab()
+        # Función auxiliar para convertir cadenas a array numpy
+        def parse_input(vector_str):
+            try:
+                # Convierte cadena a lista y luego a array numpy
+                vector = np.array(eval(vector_str))
+                return vector
+            except:
+                return None
 
-            # Convertir las matrices a tipos de datos MATLAB
-            A = matlab.double(matA)
-            b = matlab.double(matB)
-            x0 = matlab.double(matX0)
+        # Parsear las entradas
+        x0 = parse_input(x0_str)
+        A = parse_input(A_str)
+        b = parse_input(b_str)
 
-            # Llamar a la función MATLAB
-            radio, E, respuesta = eng.MatGaussSeid(x0, A, b, tol, niter, met, nargout=3)
-            eng.quit()
+        eng = matlab.engine.start_matlab()
+        radio, E, respuesta = eng.MatGaussSeid(x0, A, b,tol,niter,met, nargout=3)
+        eng.quit()
 
-            # Leer la tabla generada por MATLAB desde el archivo CSV
-            df = pd.read_csv('tablas/GaussSeid_tabla.csv')
-            df = df.astype(str)
-            data = df.to_dict(orient='records')
-            columnas = df.columns.tolist()
+        tabla_csv = pd.read_csv("tablas/GaussSeid_tabla.csv")
+        tabla = tabla_csv.to_dict('records')
+        columnas = tabla_csv.columns.tolist()
 
-            return JsonResponse({"columnas": columnas, "datos": data, "radio": radio, "error": E}, safe=False)
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=400)
-    else:
-        return render(request, 'GaussSeid.html')
+        # El último valor de xn y E para mostrar
+        s = respuesta[-1] if respuesta else None
+        ultimo_error = E[-1] if E else None
+
+        return render(request, 'GaussSeid.html', {
+            'respuesta': respuesta,
+            'E': ultimo_error,
+            'radio':radio,
+            'tabla': tabla,
+            'columnas':columnas,
+        })
+
+    return render(request, 'GaussSeid.html')
     
 def newton_int_view(request):
     if request.method == 'POST':

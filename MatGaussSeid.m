@@ -5,9 +5,10 @@
 
 function [radio,E,s] = MatGaussSeid(x0,A,b,Tol,niter, met)
 
-    A = str2num(A);
-    b = str2num(b);
-    x0 = str2num(x0);
+    A = double(A);
+    b = double(b);
+    x0 = double(x0);
+    met = int32(met);
 
     c=0;
     error=Tol+1;
