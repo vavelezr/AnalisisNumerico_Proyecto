@@ -25,20 +25,5 @@ function [coef, pol, polT] = NewtonIntComp(x, y)
     end
     polT = poly2sym(pol,X);
     polT = vpa(polT, 10);
-    f = polT;
     polT = char(polT);
-    x_vals = linspace(min(x), max(x), 100);
-    y_vals = f(x_vals);
-
-    figure;
-    plot(x_vals, y_vals, 'LineWidth', 2);
-    hold on;
-    plot(x, y, 'ro');
-    title('Polinomio de Interpolacion de Newton');
-    xlabel('x');
-    ylabel('y');
-    legend('Polinomio interpolado', 'Puntos de datos', 'Location', 'Best');
-    grid on;
-
-    saveas(gcf, 'C:\Users\user\Desktop\proyectoAnalisis\proyecto\static\images\polinomio_interpolacion_newton.png')
 end
