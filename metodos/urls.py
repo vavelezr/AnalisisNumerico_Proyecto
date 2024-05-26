@@ -18,5 +18,6 @@ urlpatterns = [
 
     #Capitulo 3
     path('newtonInt/', views.newton_int_view, name='newton-int'),
+    path('vander/', views.vander_view, name='vander'),
 ]
 

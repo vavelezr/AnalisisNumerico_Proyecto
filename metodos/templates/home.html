@@ -164,7 +164,7 @@
                 <span>Modulo 3</span>
                 <div class="dropdown-content">
                     <a href="{% url 'newton-int' %}">Newton int</a>
-                    <a href="">Vandermonde</a>
+                    <a href="{% url 'vander' %}">Vandermonde</a>
                 </div>
             </div>
         </nav>
@@ -182,6 +182,7 @@
             <a href="{% url 'sor' %}" class="btn">SOR</a>
             <a href="{% url 'newton_m2' %}" class="btn">Raiz Multiple m2</a>
             <a href="{% url 'newton-int' %}" class="btn">Newton Int</a>
+            <a href="{% url 'vander' %}" class="btn">Vandermonde</a>
         </div>
         {% endblock %}
     </div>

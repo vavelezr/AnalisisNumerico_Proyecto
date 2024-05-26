@@ -459,3 +459,24 @@ def newton_int_view(request):
             'polinomio': polT,
         })
     return render(request, 'newtonInt.html')
+
+def vander_view(request):
+    if request.method == 'POST':
+        x = request.POST.get('x')
+        y = request.POST.get('y')
+        
+        eng = matlab.engine.start_matlab()
+
+        [A, a, pol] = eng.vander1(x, y, nargout=3)
+
+        eng.quit()
+
+        tabla_csv = pd.read_csv("tablas/vander1.csv", header=None)
+        tabla = tabla_csv.values.tolist()
+
+        return render(request, 'vander.html', {
+            'Tabla': tabla,
+            'coeficientes': a,
+            'polinomio': pol,
+        })
+    return render(request, 'vander.html')

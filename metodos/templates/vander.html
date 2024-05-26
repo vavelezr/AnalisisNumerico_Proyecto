@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario y Resultado de Newton Interpolante</title>
+    <title>Formulario y Resultado del metodo de Vandermonde</title>
     <!-- Asegúrate de incluir aquí tus estilos y/o referencias a hojas de estilo externas como en biseccion.html -->
 </head>
 <style>
@@ -93,13 +93,13 @@
 <body>
 <a href="{% url 'home' %}" class="btnHome">Home</a>
     <div class="container">
-    <h2>Newton Interpolante</h2>
+    <h2>Vandermonde</h2>
     <div class="explicacion">
-        <p>El método de Newton Interpolante</p>
+        <p>El método de interpolacion de Vandermonde</p>
         <p>Los valores de 'x' y 'y' deben estar escritos asi [ a b c d ], el tamaño de estos</p>
-        <p>debe ser del mismo tamaño</p>
+        <p>debe ser de 4 exacto</p>
     </div>
-    <h2>Formulario de Newton Interpolante</h2>
+    <h2>Formulario de Vandermonde</h2>
     <div class="form-container">
         <form action="#" method="POST">
             {% csrf_token %}
@@ -116,14 +116,8 @@
     </div>
     <div style="overflow-x: auto;">
 
-    <h3>Tabla de diferenciales divididas:</h3>
+    <h3>MATRIZ:</h3>
     <table>
-        <h1>Tabla de Diferencias Divididas</h1>
-        <tr>
-            <th>x</th>
-            <th>y</th>
-            <th>Diferencias Divididas...</th>
-        </tr>
         {% for fila in Tabla %}
         <tr>
             {% for valor in fila %}
@@ -132,10 +126,8 @@
         </tr>
         {% endfor %}
     </table>
-    <h4>Coeficientes diferencias divididas</h4>
+    <h4>Coeficientes polinomio</h4>
     <p>{{ coeficientes }}</p>
-    <h4>Coeficientes polinomio interpolante</h4>
-    <p>{{ polinomioC }}</p>
     <h4>Polinomio</h4>
     <p>{{ polinomio }}<p>
     </div>

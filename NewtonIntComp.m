@@ -1,7 +1,7 @@
 function [coef, pol, polT] = NewtonIntComp(x, y)
     syms X;
     x = str2num(x);
-    y = str2num(y)
+    y = str2num(y);
     n=length(x);
     Tabla=zeros(n,n+1);
     Tabla(:,1)=x;
