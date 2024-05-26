@@ -115,7 +115,7 @@
         </form>
     </div>
     <div style="overflow-x: auto;">
-
+    {% if Tabla %}
     <h3>Tabla de diferenciales divididas:</h3>
     <table>
         <h1>Tabla de Diferencias Divididas</h1>
@@ -132,14 +132,23 @@
         </tr>
         {% endfor %}
     </table>
+    {% endif %}
+    {% if coeficientes %}
     <h4>Coeficientes diferencias divididas</h4>
     <p>{{ coeficientes }}</p>
+    {% endif %}
+    {% if polinomioC %}
     <h4>Coeficientes polinomio interpolante</h4>
     <p>{{ polinomioC }}</p>
+    {% endif %}
+    {%if polinomio %}
     <h4>Polinomio</h4>
     <p>{{ polinomio }}<p>
+    {% endif %}
+    {% if grafico %}
     <h4>Grafica Polinomio</h4>
     <img src="{{ grafico }}" alt="Gráfico de la Función">
+    {% endif %}
     </div>
     </div>
 </div>

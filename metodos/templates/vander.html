@@ -115,7 +115,7 @@
         </form>
     </div>
     <div style="overflow-x: auto;">
-
+    {% if Tabla %}
     <h3>MATRIZ:</h3>
     <table>
         {% for fila in Tabla %}
@@ -126,12 +126,19 @@
         </tr>
         {% endfor %}
     </table>
+    {% endif %}
+    {% if coeficientes %}
     <h4>Coeficientes polinomio</h4>
     <p>{{ coeficientes }}</p>
+    {% endif %}
+    {% if polinomio %}
     <h4>Polinomio</h4>
     <p>{{ polinomio }}<p>
+    {% endif %}
+    {% if grafico %}
     <h4>Grafica Polinomio</h4>
     <img src="{{ grafico }}" alt="Gráfico de la Función">
+    {% endif %}
     </div>
     </div>
 </div>
