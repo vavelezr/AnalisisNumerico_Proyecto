@@ -459,12 +459,14 @@ def newton_int_view(request):
 
         tabla_csv = pd.read_csv("tablas/newtonIntComp.csv", header=None)
         tabla = tabla_csv.values.tolist()
+        grafico_funcion_path = os.path.join('static', 'images', 'polinomio_interpolacion_newton.png')
 
         return render(request, 'newtonInt.html', {
             'Tabla': tabla,
             'coeficientes': coef,
             'polinomioC': pol,
             'polinomio': polT,
+            'grafico': '/' + grafico_funcion_path.replace(os.path.sep, '/'),
         })
     return render(request, 'newtonInt.html')
 
