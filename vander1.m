@@ -1,10 +1,11 @@
 function [A, a, pol] = vander1(x, y)
     x = str2num(x);
     y = str2num(y);
+    n = length(x) - 1;
     x=x';
     y=y';
     syms X;
-    A=[x.^3 x.^2 x ones(length(x),1)];
+    A=vander(x); 
     b=y;
     a=inv(A)*b;
     pol = poly2sym(a', X);
