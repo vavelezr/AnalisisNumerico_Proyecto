@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario y Resultado del metodo de Vandermonde</title>
+    <title>Formulario y Resultado del metodo de Spline</title>
     <!-- Asegúrate de incluir aquí tus estilos y/o referencias a hojas de estilo externas como en biseccion.html -->
 </head>
 <style>
@@ -93,25 +93,34 @@
 <body>
 <a href="{% url 'home' %}" class="btnHome">Home</a>
     <div class="container">
-    <h2>Vandermonde</h2>
+    <h2>Spline</h2>
     <div class="explicacion">
-        <p>El método de interpolacion de Vandermonde</p>
+        <p>El método de interpolacion de Spline</p>
         <p>Los valores de 'x' y 'y' deben estar escritos asi [ a b c d ], el tamaño de estos</p>
-
     </div>
-    <h2>Formulario de Vandermonde</h2>
+    <h2>Formulario de Spline</h2>
     <div class="form-container">
         <form action="#" method="POST">
             {% csrf_token %}
             <div class="form-group">
-                <label for="x">valores x:</label>
-                <input type="text" id="x" name="x" placeholder="Ingrese los valores de x" required>
+                <label for="x">Valores de x:</label>
+
+                <input type="text" id="x" name="x" placeholder="Ingrese los valores de x como [3 4 10 12]" required>
             </div>
             <div class="form-group">
-                <label for="y">valores y:</label>
-                <input type="text" id="y" name="y" placeholder="Ingrese los valores de y" required>
+                <label for="y">Valores de y:</label>
+
+                <input type="text" id="y" name="y" placeholder="Ingrese los valores de y como [10 15 20 25]" required>
             </div>
-            <button type="submit">Guardar</button>
+            <div class="form-group">
+                <label for="degree">Grado del Spline:</label>
+                <select id="degree" name="degree">
+                    <option value="1">Lineal</option>
+                    <option value="2">Cuadrático</option>
+                    <option value="3">Cúbico</option>
+                </select>
+            </div>
+            <button type="submit">Calcular</button>
         </form>
     </div>
     <div style="overflow-x: auto;">
@@ -127,14 +136,7 @@
         {% endfor %}
     </table>
     {% endif %}
-    {% if coeficientes %}
-    <h4>Coeficientes polinomio</h4>
-    <p>{{ coeficientes }}</p>
-    {% endif %}
-    {% if polinomio %}
-    <h4>Polinomio</h4>
-    <p>{{ polinomio }}<p>
-    {% endif %}
+
     {% if grafico %}
     <h4>Grafica Polinomio</h4>
     <img src="{{ grafico }}" alt="Gráfico de la Función">

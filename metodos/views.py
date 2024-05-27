@@ -493,3 +493,26 @@ def vander_view(request):
             'grafico': '/' + grafico_funcion_path.replace(os.path.sep, '/'),
         })
     return render(request, 'vander.html')
+
+
+def spline_view(request):
+    if request.method == 'POST':
+        x_values = request.POST.get('x')
+        y_values = request.POST.get('y')
+        degree = int(request.POST.get('degree'))
+
+        eng = matlab.engine.start_matlab()
+
+        T = eng.Spline(degree, x_values, y_values, nargout=1)
+
+        eng.quit()
+        
+        tabla_csv = pd.read_csv("tablas/spline_tabla.csv", header=None)
+        tabla = tabla_csv.values.tolist()
+        grafico_funcion_path = os.path.join('static', 'images', 'spline.png')
+        
+        return render(request, 'spline.html', {
+            'Tabla': tabla,
+            'grafico': '/' + grafico_funcion_path.replace(os.path.sep, '/'),
+        })
+    return render(request, 'spline.html')
