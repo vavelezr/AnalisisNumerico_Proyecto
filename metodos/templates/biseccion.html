@@ -46,23 +46,23 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="funcion">Función:</label>
-                <input type="text" id="funcion" name="funcion" placeholder="Ingrese la función: x^3-2*x^2+x-1">
+                <input type="text" id="funcion" name="funcion" placeholder="Ingrese la función: x^3-2*x^2+x-1" required>
             </div>
             <div class="form-group">
                 <label for="xs">Xs:</label>
-                <input type="text" id="xs" name="xs" placeholder="Ingrese Xs: 15. Debe ser un número">
+                <input type="text" id="xs" name="xs" placeholder="Ingrese Xs: 15. Debe ser un número" required>
             </div>
             <div class="form-group">
                 <label for="xi">Xi:</label>
-                <input type="text" id="xi" name="xi" placeholder="Ingrese Xi: -1. Debe ser número">
+                <input type="text" id="xi" name="xi" placeholder="Ingrese Xi: -1. Debe ser número" required>
             </div>
             <div class="form-group">
                 <label for="tol">Tol:</label>
-                <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia: 1e-5. Debe ser número positivo">
+                <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia: 1e-5. Debe ser número positivo" required>
             </div>
             <div class="form-group">
                 <label for="niter">Niter:</label>
-                <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones: 100. Max 100">
+                <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones: 100. Max 100" required>
             </div>
             <button type="submit" class="btnSave">Calcular</button>
         </form>

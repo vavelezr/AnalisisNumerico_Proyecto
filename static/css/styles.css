@@ -67,10 +67,11 @@ table tr:nth-child(even) {
 
 }
 .btnHome {
+
     width: 50px;
-    padding: 10px 0;
+    padding: 10px 20px;
     cursor: pointer;
-    position: relative;
+
     text-align: center;
     text-decoration: none;
     border: 3px solid var(--main);
@@ -95,16 +96,16 @@ table tr:nth-child(even) {
     text-align: center;
     text-decoration: none;
 
-    color: #000;
+    color: #fff;
     font-size: 1rem;
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 2.5px;
     transition: all 0.2s;
-    background-color: #b00;
+    background-color: #000;
 }
 
 .btnSave:hover {
-    background: var(--main);
-    color: var(--bg);
+    background: #b00;
+    color: #fff;
 }
