@@ -1,94 +1,12 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Bi</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            width: 50%;
-            margin: 50px auto;
-            text-align: center;
-        }
-        h2 {
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            font-weight: bold;
-        }
-        input[type="text"] {
-            width: 50%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .explicacion {
-            font-size: 14px;
-            margin-top: 30px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table th, table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        table th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        :root{
-            --link: #000;
-            --hover: #b00;
-            --main: #000;
-            --bg: #f0f0f0;
-            --size: 99vmin;
-            --ratio: 1 / 1.1;
-
-        }
-        .btnHome {
-            width: 50px;
-            padding: 10px 0;
-            cursor: pointer;
-            position: relative;
-            text-align: center;
-            border: 3px solid var(--main);
-            color: var(--main);
-            font-size: 1rem;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 2.5px;
-            transition: all 0.2s;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    
 </head>
 <body>
 <a href="{% url 'home' %}" class="btnHome">Home</a>
@@ -116,7 +34,7 @@
                 <label for="niter">Niter:</label>
                 <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones">
             </div>
-            <button type="submit">Guardar</button>
+            <button type="submit" class="btnSave">Calcular</button>
         </form>
     </div>
     {% if respuesta %}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PROYECTO{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+</head>
+<body>
+    <div class="navbar-container">
+        <header class="container">
+            <a href="" class="logo">PROYECTO</a>
+            <nav>
+                <div class="dropdown">
+                    <span>Modulo 1</span>
+                    <div class="dropdown-content">
+                        <a href="{% url 'biseccion' %}">Bisección</a>
+                        <a href="{% url 'regla_falsa' %}">Regla Falsa</a>
+                        <a href="{% url 'punto_fijo' %}">Punto Fijo</a>
+                        <a href="{% url 'busqueda_incremental' %}">Busqueda Incremental</a>
+                        <a href="{% url 'secante' %}">Secante</a>
+                        <a href="{% url 'newton' %}">Newton</a>
+                        <a href="{% url 'newton_m2' %}">Raiz Multiple m2</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <span>Modulo 2</span>
+                    <div class="dropdown-content">
+                        <a href="{% url 'sor' %}">SOR</a>
+                        <a href="{% url 'gauss_seid' %}">Gauss-Seidel o Jacobi</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <span>Modulo 3</span>
+                    <div class="dropdown-content">
+                        <a href="{% url 'newton-int' %}">Newton int</a>
+                        <a href="{% url 'vander' %}">Vandermonde</a>
+                        <a href="{% url 'spline' %}">Spline</a>
+                        <a href="{% url 'lagrange' %}">Lagrange</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </div>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
