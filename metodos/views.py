@@ -516,3 +516,27 @@ def spline_view(request):
             'grafico': '/' + grafico_funcion_path.replace(os.path.sep, '/'),
         })
     return render(request, 'spline.html')
+
+def lagrange_view(request):
+    if request.method == 'POST':
+        x_values = request.POST.get('x')
+        y_values = request.POST.get('y')
+
+
+        eng = matlab.engine.start_matlab()
+
+        T,pol = eng.Lagrange(x_values, y_values, nargout=2)
+
+        eng.quit()
+        
+        tabla_csv = pd.read_csv("tablas/lagrange_tabla.csv", header=None)
+        tabla = tabla_csv.values.tolist()
+        grafico_funcion_path = os.path.join('static', 'images', 'lagrange.png')
+        
+        
+        return render(request, 'lagrange.html', {
+            'pol':pol,
+            'Tabla': tabla,
+            'grafico': '/' + grafico_funcion_path.replace(os.path.sep, '/'),
+        })
+    return render(request, 'lagrange.html')

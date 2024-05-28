@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario y Resultado del metodo de Lagrange</title>
+    <!-- Asegúrate de incluir aquí tus estilos y/o referencias a hojas de estilo externas como en biseccion.html -->
+</head>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .explicacion {
+            font-size: 14px;
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        :root{
+            --link: #000;
+            --hover: #b00;
+            --main: #000;
+            --bg: #f0f0f0;
+            --size: 99vmin;
+            --ratio: 1 / 1.1;
+
+        }
+        .btnHome {
+            width: 50px;
+            padding: 10px 0;
+            cursor: pointer;
+            position: relative;
+            text-align: center;
+            border: 3px solid var(--main);
+            color: var(--main);
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2.5px;
+            transition: all 0.2s;
+        }
+    </style>
+
+<body>
+<a href="{% url 'home' %}" class="btnHome">Home</a>
+    <div class="container">
+    <h2>Lagrange</h2>
+    <div class="explicacion">
+        <p>El método de interpolacion de Lagrange</p>
+        <p>Los valores de 'x' y 'y' deben estar escritos asi [ a;b;c;d ], el tamaño de estos</p>
+    </div>
+    <h2>Formulario de Lagrange</h2>
+    <div class="form-container">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="x">Valores de x:</label>
+
+                <input type="text" id="x" name="x" placeholder="Ingrese los valores de x como [3;4;10;12]" required>
+            </div>
+            <div class="form-group">
+                <label for="y">Valores de y:</label>
+
+                <input type="text" id="y" name="y" placeholder="Ingrese los valores de y como [10;15;20;25]" required>
+            </div>
+
+            <button type="submit">Calcular</button>
+        </form>
+    </div>
+    <div style="overflow-x: auto;">
+    
+    {% if pol %}
+    <h3> Función interpolante resultado Lagrange</h3>
+    <a>{{pol}}</a>
+    {% endif %}
+
+    {% if Tabla %}
+    <h3>MATRIZ:</h3>
+    <table>
+        {% for fila in Tabla %}
+        <tr>
+            {% for valor in fila %}
+            <td>{{ valor }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    {% if grafico %}
+    <h4>Grafica Polinomio</h4>
+    <img src="{{ grafico }}" alt="Gráfico de la Función">
+    {% endif %}
+    </div>
+    </div>
+</div>
+
+</body>
+</html>

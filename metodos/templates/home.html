@@ -18,7 +18,7 @@
         body {
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            overflow-x: hidden; /* Solo oculta el desplazamiento horizontal */
             background-color: var(--bg);
             font-family: tahoma;
             color: var(--main);
@@ -165,6 +165,7 @@
                     <a href="{% url 'newton-int' %}">Newton int</a>
                     <a href="{% url 'vander' %}">Vandermonde</a>
                     <a href="{% url 'spline' %}">Spline</a>
+                    <a href="{% url 'lagrange' %}">Lagrange</a>
                 </div>
             </div>
         </nav>
@@ -183,6 +184,8 @@
             <a href="{% url 'newton_m2' %}" class="btn">Raiz Multiple m2</a>
             <a href="{% url 'newton-int' %}" class="btn">Newton Int</a>
             <a href="{% url 'vander' %}" class="btn">Vandermonde</a>
+            <a href="{% url 'spline' %}" class="btn">Spline</a>
+            <a href="{% url 'lagrange' %}" class="btn">Lagrange</a>
         </div>
         {% endblock %}
     </div>
