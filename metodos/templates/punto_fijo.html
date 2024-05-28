@@ -93,12 +93,30 @@
 <body>
 <a href="{% url 'home' %}" class="btnHome">Home</a>
 <div class="container">
-    <h2>Punto Fijo</h2>
+    <h2>Punto fijo</h2>
+    <ul style="list-style-type: none;">
+                    <li><strong>Convergencia:</strong> Lineal, depende de la elección de g(x) y su derivada.</li>
+                    <li><strong>Situaciones recomendadas:</strong> Cuando g(x) es fácil de calcular y |g′(x)| < 1.</li>
+                    <li><strong>Ventaja:</strong> Simple de implementar.</li>
+                    <li><strong>Desventaja:</strong> La elección de g(x) puede ser complicada, y puede no converger.</li>
+                </ul>
+                <h3><strong>Casos de uso:</strong></h3>
+                <ul style="list-style-type: none;">
+                    <li><strong>Función g(x) fácil de calcular:</strong> Ideal cuando g(x) es simple y su derivada cumple con |g′(x)| < 1, garantizando la convergencia.</li>
+                    <li><strong>Problemas simples:</strong> Adecuado para problemas donde la solución es simple y directa.</li>
+                    <li><strong>Sistemas con buena elección de g(x):</strong> Funciona bien cuando se puede encontrar una función g(x) adecuada que asegure la convergencia.</li>
+                    <li><strong>Implementación inicial:</strong> Útil para introducir conceptos básicos de métodos iterativos debido a su simplicidad.</li>
+                </ul>
+
     <div class="explicacion">
-        <p>El método de Punto fijo</p>
+        <div style="text-align: center; color: red;">
+            <strong>Ten en cuenta a la hora de ingresar tus datos</strong>
+        </div>
         <p>Los errores deben ser escritos así: 0.5e-5.</p>
-        <p>F puede ser escrita así sin(x-A*10^(-3))-x </p>
-        <p>La función debe ser escrita de este modo: sin(x-A*10^(-3)).  (Esa es g)</p>
+        <p>F puede ser escrita así sin(x-18*10^(-3))-x </p>
+        <p>La función debe ser escrita de este modo: sin(x-18*10^(-3)).  (Esa es g)</p>
+        <p>Si ∣g′(x)∣≥1, el método no converge.</p>
+        <p>Si el punto inicial x0 está demasiado lejos de la raíz, el método puede no converger.</p>
         <p class="subtitle text-gray-700 display-6">El tipo de error está dado por 0 para error absoluto y 1 para error relativo. Ingrese el que corresponda, al ingresar un valor invalido por defecto se tomará el error relativo.</p>
     </div>
     <h2>Formulario de Punto Fijo</h2>
@@ -115,20 +133,20 @@
             </div>
             <div class="form-group">
                 <label for="x1">x0:</label>
-                <input type="text" id="x0" name="x0" placeholder="Ingrese x0" required>
+                <input type="text" id="x0" name="x0" placeholder="Ingrese x0. Debe ser un número, ej: 1" required>
             </div>
             <div class="form-group">
                 <label for="tol">Tol:</label>
-                <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia" required>
+                <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia. Ej: 1e-5" required>
             </div>
             <div class="form-group">
                 <label for="niter">Niter:</label>
-                <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones" required>
+                <input type="text" id="niter" name="niter" placeholder="Ingrese num de iteraciones. Debe ser num, max 100" required>
             </div>
             <div class="form-group">
 
-                <label for="terr">Terr:</label>
-                <input type="text" id="tipo_error" name="tipo_error" placeholder="Ingrese el número de terr" required>
+                <label for="terr">Tipo error:</label>
+                <input type="text" id="tipo_error" name="tipo_error" placeholder="Ingrese el número de terr. 0: abs ó 1: rela" required>
             </div>
             <button type="submit">Guardar</button>
         </form>

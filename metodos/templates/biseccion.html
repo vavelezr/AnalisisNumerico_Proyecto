@@ -92,11 +92,30 @@
 <a href="{% url 'home' %}" class="btnHome">Home</a>
 <div class="container">
     <h2>Bisección</h2>
+
+                <ul style="list-style-type: none;">
+                    <li><strong>Convergencia:</strong> Lineal, pero garantizada.</li>
+                    <li><strong>Situaciones recomendadas:</strong> Cuando se tiene una función continua en un intervalo [a, b] con un cambio de signo en los extremos del intervalo.</li>
+                    <li><strong>Ventaja:</strong> Siempre converge.</li>
+                    <li><strong>Desventaja:</strong> Lenta comparada con otros métodos.</li>
+                </ul>
+                <h3><strong>Casos de uso:</strong></h3>
+                <ul style="list-style-type: none;">
+                    <li><strong>Función continua con cambio de signo:</strong> Ideal cuando se tiene una función continua en un intervalo [a, b] donde f(a) y f(b) tienen signos opuestos.</li>
+                    <li><strong>Sistemas sencillos:</strong> Útil en problemas simples donde la precisión es más importante que la velocidad.</li>
+                    <li><strong>Función no derivable:</strong> Puede ser utilizado en funciones que no tienen derivada continua o donde otros métodos como Newton-Raphson fallarían debido a la falta de derivada.</li>
+                    <li><strong>Intervalos grandes:</strong> Apto para comenzar con intervalos grandes y luego utilizar otros métodos más rápidos una vez que el intervalo se haya reducido.</li>
+                </ul>
+
     <div class="explicacion">
         <p>La bisección es un método numérico utilizado para encontrar las raíces de una función. Se basa en el teorema del valor intermedio, dividiendo repetidamente un intervalo en subintervalos más pequeños y seleccionando aquel en el que la función cambia de signo.</p>
-        <p> Para llenar este formulario tienes que utilizar OBLIGATORIAMENTE la notaciòn de matlab</p>
-        <p>Los errores deben ser escritos así: 0.5e-5</p>
+        <div style="text-align: center; color: red;">
+            <strong>Ten en cuenta a la hora de ingresar tus datos</strong>
+        </div>
+        <p> Para llenar este formulario tienes que utilizar OBLIGATORIAMENTE la notación de matlab</p>
+        <p>Los errores deben ser escritos así: 0.5e-5. OJO: El primero número cambia quieres cifras significativas o decimales correcto</p>
         <p>La función debe ser escrita de este modo: x^3-2*x^2+x-1</p>
+        <p>Este método requiere un intervalo [xi, xs] en el cual la función cambia de signo, es decir, f(xi) * f(xs) < 0. Si no se cumple, no se garantiza que funcione el método.</p>
     </div>
     <h2>Formulario de Bisección</h2>
     <div class="form-container">
@@ -104,23 +123,23 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="funcion">Función:</label>
-                <input type="text" id="funcion" name="funcion" placeholder="Ingrese la función">
+                <input type="text" id="funcion" name="funcion" placeholder="Ingrese la función: x^3-2*x^2+x-1">
             </div>
             <div class="form-group">
                 <label for="xs">Xs:</label>
-                <input type="text" id="xs" name="xs" placeholder="Ingrese Xs">
+                <input type="text" id="xs" name="xs" placeholder="Ingrese Xs: 15. Debe ser un número">
             </div>
             <div class="form-group">
                 <label for="xi">Xi:</label>
-                <input type="text" id="xi" name="xi" placeholder="Ingrese Xi">
+                <input type="text" id="xi" name="xi" placeholder="Ingrese Xi: -1. Debe ser número">
             </div>
             <div class="form-group">
                 <label for="tol">Tol:</label>
-                <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia">
+                <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia: 1e-5. Debe ser número positivo">
             </div>
             <div class="form-group">
                 <label for="niter">Niter:</label>
-                <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones">
+                <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones: 100. Max 100">
             </div>
             <button type="submit">Guardar</button>
         </form>
