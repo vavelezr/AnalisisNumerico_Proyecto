@@ -93,13 +93,49 @@
 <body>
 <a href="{% url 'home' %}" class="btnHome">Home</a>
 <div class="container">
-    <h2>Gauss-Seidel y Jacobi</h2>
-    <div class="explicacion">
-        <p>El método de GAUSS</p>
-        <p>Los errores deben ser escritos así: 0.5e-5.</p>
-        <p>Los vectores deben estar escrito asi [[a1,a2], [b1,b2]] donde la coma representa una nueva fila </p>
-        
-    </div>
+    <body>
+        <h2>Métodos Numéricos: Gauss-Seidel y Jacobi</h2>
+    
+        <table border="1">
+            <tr>
+                <th>Método de Jacobi</th>
+                <th>Método de Gauss-Seidel</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>Convergencia: Lineal.</li>
+                        <li>Situaciones recomendadas: Cuando la matriz es diagonalmente dominante.</li>
+                        <li>Ventaja: Fácil de paralelizar.</li>
+                        <li>Desventaja: Lenta convergencia en general.</li>
+                    </ul>
+                    <h3>Casos de uso:</h3>
+                    <ul>
+                        <li>Matriz diagonalmente dominante: Funciona bien cuando la matriz de coeficientes es diagonalmente dominante.</li>
+                        <li>Sistemas grandes y dispersos: Ideal para sistemas grandes y dispersos donde se puede paralelizar fácilmente.</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Convergencia: Lineal, pero más rápida que Jacobi.</li>
+                        <li>Situaciones recomendadas: Similar a Jacobi, pero generalmente preferido por su mejor rendimiento.</li>
+                        <li>Ventaja: Más rápido que Jacobi.</li>
+                        <li>Desventaja: Depende de la estructura de la matriz.</li>
+                    </ul>
+                    <h3>Casos de uso:</h3>
+                    <ul>
+                        <li>Matriz diagonalmente dominante: Funciona bien cuando la matriz de coeficientes es diagonalmente dominante.</li>
+                        <li>Sistemas grandes y dispersos: Ideal para sistemas grandes y dispersos donde se puede paralelizar fácilmente.</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    
+        <div class="explicacion">
+            <p>Los errores deben ser escritos así: 0.5e-5.</p>
+            <p>Los vectores deben estar escritos así [[a1,a2], [b1,b2]] donde la coma representa una nueva fila.</p>
+            <p>solo se admitiran valores numericos</p>
+        </div>
     <h2>Formulario de GAUSS</h2>
     <div class="form-container">
         <form action="#" method="POST">
