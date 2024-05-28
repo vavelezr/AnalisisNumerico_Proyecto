@@ -99,6 +99,7 @@
         <p>Para llenar este formulario tienes que utilizar OBLIGATORIAMENTE la notación de MATLAB.</p>
         <p>Los errores deben ser escritos así: 0.5e-5.</p>
         <p>La función debe ser escrita de este modo: x^3-2*x^2+x-1.</p>
+        <p>Solo ingresar valores numericos</p>
         <p class="subtitle text-gray-700 display-6">El tipo de error está dado por 0 para error absoluto y 1 para error relativo. Ingrese el que corresponda, al ingresar un valor invalido por defecto se tomará el error relativo.</p>
     </div>
     <h2>Formulario de Secante</h2>
@@ -118,16 +119,16 @@
                 <input type="text" id="x1" name="x1" placeholder="Ingrese x1" required>
             </div>
             <div class="form-group">
-                <label for="tol">Tol:</label>
+                <label for="tol">Tolerancia:</label>
                 <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia" required>
             </div>
             <div class="form-group">
-                <label for="niter">Niter:</label>
+                <label for="niter">Numero de Iteraciones:</label>
                 <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones" required>
             </div>
             <div class="form-group">
 
-                <label for="terr">Terr:</label>
+                <label for="terr">Tipo de Error:</label>
                 <input type="text" id="terr" name="terr" placeholder="Ingrese el número de terr" required>
             </div>
             <button type="submit">Guardar</button>
