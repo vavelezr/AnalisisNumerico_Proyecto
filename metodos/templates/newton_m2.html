@@ -12,11 +12,29 @@
 <h1>sad</h1>
 <div class="container">
     <h2>Newton Raices multiples m2</h2>
+    <ul style="list-style-type: none;">
+        <li><strong>Convergencia:</strong> Superlineal, más rápida que los métodos estándar cerca de raíces múltiples.</li>
+        <li><strong>Situaciones recomendadas:</strong> Cuando se sabe o se sospecha que la función tiene raíces múltiples y la derivada de la función es fácil de calcular.</li>
+        <li><strong>Ventaja:</strong> Mejora la convergencia en presencia de raíces múltiples.</li>
+        <li><strong>Desventaja:</strong> Requiere la derivada y la segunda derivada, y puede ser más complejo de implementar que el método de Newton estándar.</li>
+    </ul>
+    <h3><strong>Casos de uso:</strong></h3>
+    <ul style="list-style-type: none;">
+        <li><strong>Función f(x) con raíces múltiples:</strong> Ideal cuando f(x)=0 tiene raíces múltiples y la derivada cumple con f'(x) = 0 en las proximidades de las raíces.</li>
+        <li><strong>Precisión y Rapidez:</strong> El método puede alcanzar una alta precisión con pocas iteraciones, especialmente si la función y sus derivadas son bien comportadas cerca de la raíz múltiple.</li>
+        <li><strong>Complejidad:</strong> Aunque más complejo que el método de Newton estándar, es muy efectivo para funciones con raíces múltiples.</li>
+    </ul>
     <div class="explicacion">
+        <div style="text-align: center; color: red;">
+            <strong>Ten en cuenta a la hora de ingresar tus datos</strong>
+        </div>
+        <p>El método de Newton modificado para raíces múltiples es un método numérico que utiliza derivadas para encontrar las raíces múltiples de una función, mejorando progresivamente una estimación inicial.</p>
         <p>Para llenar este formulario debes utilizar OBLIGATORIAMENTE la notación de MATLAB.</p>
         <p>Los errores deben ser escritos así: 0.5e-5.</p>
         <p>La función debe ser escrita de este modo: x^3-2*x^2+x-1.</p>
-        <p>Tipo de error: Absoluto = 0, Relativo = 1</p>
+        <p class="subtitle text-gray-700 display-6">El tipo de error está dado: 0 para error absoluto y 1 para error relativo.</p>
+        <p>f(x) tiene que ser derivable y la derivada debe ser diferente de 0 (cero), y no debe calcular cerca de mínimos y máximos locales, puesto que no permitirá converger el método.</p>
+        <p>Solo se pueden ingresar valores numéricos</p>
     </div>
     <h2>Formulario de Newton Raices multiples</h2>
     <div class="form-container">

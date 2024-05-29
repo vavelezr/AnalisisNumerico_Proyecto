@@ -12,7 +12,21 @@
     <h2>Vandermonde</h2>
     <div class="explicacion">
         <p>El método de interpolacion de Vandermonde</p>
-        <p>Los valores de 'x' y 'y' deben estar escritos asi [ a b c d ], el tamaño de estos</p>
+    <ul style="list-style-type: none;">
+        <li><strong>Convergencia:</strong> Exacta para un conjunto dado de puntos, pero puede ser inestable para un gran número de puntos.</li>
+        <li><strong>Situaciones recomendadas:</strong> Cuando se necesita un polinomio de interpolación que pase exactamente por todos los puntos dados.</li>
+    </ul>
+    <h3><strong>Casos de uso:</strong></h3>
+    <div class="explicacion">
+        <div style="text-align: center; color: red;">
+            <strong>Ten en cuenta a la hora de ingresar tus datos</strong>
+        </div>
+        <p>El método de interpolación de Vandermonde utiliza una matriz para encontrar un polinomio que pase exactamente por un conjunto de puntos dados. El proceso implica construir la matriz de Vandermonde a partir de los puntos \(x\) y resolver un sistema lineal para obtener los coeficientes del polinomio.</p>
+        <p><strong>A tener en cuenta al ingresar datos</strong></p>
+        <p>Los valores de 'x' y 'y' deben estar escritos asi [ a b c d ], el tamaño de estos debe ser el mismo</p>
+        <p>Los valores de 'x' y 'y' pueden ser iguales pero no identicos, los valores de cada conjunto deben ser distintos entre si</p>
+        <p>Los valores de 'x' y 'y' deben ser numericos</p>
+        </div>
 
     </div>
     <h2>Formulario de Vandermonde</h2>

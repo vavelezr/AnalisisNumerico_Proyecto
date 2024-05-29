@@ -10,11 +10,27 @@
 <a href="{% url 'home' %}" class="btnHome">Home</a>
     <div class="container">
     <h2>Newton Interpolante</h2>
+    <ul style="list-style-type: none;">
+        <li><strong>Convergencia:</strong> Exacta para el conjunto de puntos dados, pero puede ser numéricamente inestable para un gran número de puntos.</li>
+        <li><strong>Situaciones recomendadas:</strong> Cuando se requiere un polinomio de interpolación que pase exactamente por todos los puntos dados.</li>
+    </ul>
+    <h3><strong>Casos de uso:</strong></h3>
+    <ul style="list-style-type: none;">
+        <li><strong>Interpolación exacta:</strong> Ideal cuando se requiere un polinomio que pase exactamente por un conjunto específico de puntos.</li>
+        <li><strong>Obtención de polinomios explícitos:</strong> Útil cuando se necesita la expresión explícita del polinomio de interpolación.</li>
+    </ul>
     <div class="explicacion">
-        <p>El método de Newton Interpolante</p>
+        <div style="text-align: center; color: red;">
+            <strong>Ten en cuenta a la hora de ingresar tus datos</strong>
+        </div>
+        <p>El método de interpolación de Newton utiliza diferencias divididas para construir un polinomio que pase exactamente por un conjunto de puntos dados. El proceso implica calcular una tabla de diferencias divididas y usar estos valores para formar el polinomio de interpolación.</p>
         <p>Los valores de 'x' y 'y' deben estar escritos asi [ a b c d ], el tamaño de estos</p>
         <p>debe ser del mismo tamaño</p>
+        <p>Los valores de 'x' y 'y' deben ser numericos</p>
+        <p>Asegúrate de que los vectores tengan la misma longitud y que los valores de \(x\) sean distintos entre sí.</p>
+        <p class="subtitle text-gray-700 display-6">El tipo de salida es un polinomio de interpolación que se muestra tanto en forma simbólica como gráfica.</p>
     </div>
+
     <h2>Formulario de Newton Interpolante</h2>
     <div class="form-container">
         <form action="#" method="POST">
