@@ -201,10 +201,11 @@ def newton_m2_view(request):
         niter = int(request.POST.get('niter'))
         x0 = float(request.POST.get('x0'))
         tol = float(request.POST.get('tol'))
+        tipo_error = int(request.POST.get('tpe'))
 
         eng = matlab.engine.start_matlab()
 
-        N, s, fm, dfm, E, respuesta = eng.NewtonM2(funcion, x0, tol, niter, nargout=6)
+        N, s, fm, dfm, E, respuesta = eng.NewtonM2(funcion, x0, tol, niter, tipo_error, nargout=6)
 
         eng.quit()
 
@@ -261,6 +262,7 @@ def regla_falsa_view(request):
         eng = matlab.engine.start_matlab()
 
         respuesta, T = eng.ReglaFalsa(funcion, x0, x1, tol, niter, terr, nargout=2)
+        respuesta = str(respuesta)
         eng.quit()
 
         tabla_csv = pd.read_csv("tablas/regla_falsa_tabla.csv")

@@ -64,13 +64,16 @@ function [T, respuesta] = ReglaFalsa(func, x0, x1, Tol, niter, Tipo_error)
         
         if fe == 0 
            respuesta = sprintf('%f es una raíz exacta de f(x)', xm(c+1));
+           respuesta = char(respuesta);
            E(c+2) = 0;
            T = table((0:1:c)', xm', xi', xs', fm', fi' , fs', E', 'VariableNames', ["n", "x_m", "x_i", "x_s", "f_m", "f_i", "f_s", "E"]); 
         elseif error < Tol
            respuesta = sprintf('%f es una aproximación de una raíz de f(x) con una tolerancia de %f en %d iteraciones', xm(c+1), Tol, c);
+           respuesta = char(respuesta);
            T = table((0:1:c)', xm', xi', xs', fm', fi' , fs', E', 'VariableNames', ["n", "x_m", "x_i", "x_s", "f_m", "f_i", "f_s", "E"]); 
         else
            respuesta = sprintf('El método falló después de %d iteraciones', niter);
+           respuesta = char(respuesta);
            T = table(niter, 'VariableNames', ["iteraciones"]);
         end
     else % No hay certeza de raíz en el intervalo dado
@@ -78,6 +81,7 @@ function [T, respuesta] = ReglaFalsa(func, x0, x1, Tol, niter, Tipo_error)
         fm(c+1) = fi(c+1); 
         E(c+1) = 100; % Establecer un error alto para indicar la falta de certeza de raíz
         respuesta = sprintf('El intervalo inicial no es adecuado para buscar una raíz.'); 
+        respuesta = char(respuesta);
         T = table(-1, 'VariableNames', ["intervalo"]); 
     end
     csv_file_path = "tablas/regla_falsa_tabla.csv"; 

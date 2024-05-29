@@ -1,4 +1,4 @@
-function [N,s,fm,dfm,E, respuesta] = NewtonM2(f, x0,Tol,niter)
+function [N,s,fm,dfm,E, respuesta] = NewtonM2(f, x0,Tol,niter, Tipo_error)
     syms x
         f = str2sym(f);
         %x0 = str2double(x0);
@@ -26,8 +26,11 @@ function [N,s,fm,dfm,E, respuesta] = NewtonM2(f, x0,Tol,niter)
             fe=eval(subs(f,xn(c+2)));
             dfe=eval(subs(df,xn(c+2)));
             d2e = eval(subs(d2f,xn(c+2)));
-            E(c+2)=abs(xn(c+2)-x0);         %Decimales Correctos
-            %E(c+2)=abs((xn-x0)/(xn));       %Cifras Significativas
+            if Tipo_error == 0
+                E(c+2)=abs(xn(c+2)-x0); % Error ABSOLUTO
+            else
+                E(c+2)=abs((xn(c+2)-x0)/(xn(c+2))); % Error RELATIVO
+            end
             error=E(c+2);
             x0=xn(c+2);
             N(c+2)=c+2;
