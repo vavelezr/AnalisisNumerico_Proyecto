@@ -144,12 +144,11 @@ function [T] = Spline(d, x, y)
     csv_path = 'tablas/spline_tabla.csv';
     writetable(T, csv_path);
 
-
+%{
     x_vals = linspace(min(x), max(x), 100);
     y_vals = polyval(flipud(val), x_vals);
 
 
-    fig = figure;
     plot(x_vals, y_vals, 'b-', 'LineWidth', 2);
     hold on;
     plot(x, y, 'ro');
@@ -163,3 +162,32 @@ function [T] = Spline(d, x, y)
     saveas(fig, 'static/images/spline.png');
     close(fig);
 end
+%}
+% Graficar cada segmento del spline
+    fig = figure;
+    hold  on;
+    for i=1:n-1
+        x_vals = linspace((x(i)), x(i+1), 100);
+        if d==1
+            y_vals = Tabla(i,1)*x_vals + Tabla(i,2);
+        elseif d==2
+            y_vals = Tabla(i,1)*x_vals.^2 + Tabla(i,2)*x_vals + Tabla(i,3);
+        else
+            y_vals = Tabla(i,1)*x_vals.^3 + Tabla(i,2)*x_vals.^2 + Tabla(i,3)*x_vals + Tabla(i,4);
+        end
+        plot(x_vals, y_vals, 'b-', 'LineWidth', 2);
+    end
+
+    % Graficar los puntos originales
+    plot(x, y, 'ro');
+
+    title('Interpolación Spline');
+    xlabel('x');
+    ylabel('y');
+    legend('Spline interpolado', 'Puntos de datos', 'Location', 'Best');
+    grid on;
+
+    % Guardar la imagen
+    saveas(fig, 'static/images/spline.png');
+    close(fig);
+    end
