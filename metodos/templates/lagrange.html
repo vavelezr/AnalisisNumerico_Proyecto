@@ -10,9 +10,19 @@
 <a href="{% url 'home' %}" class="btnHome">Home</a>
     <div class="container">
     <h2>Lagrange</h2>
+    <ul style="list-style-type: none;">
+        <li><strong>Situaciones recomendadas:</strong> Funciona bien cuando los puntos de datos están distribuidos uniformemente.</li>
+        <li><strong>Ventaja:</strong> Permite la interpolación de cualquier conjunto de puntos dados sin necesidad de recalcular todo el polinomio al agregar nuevos puntos..</li>
+        <li><strong>Desventaja:</strong> Puede ser ineficiente y numericamente inestable para conjuntos de datos grandes, lo que puede resultar en errores significativos.</li>
+    </ul>
+
     <div class="explicacion">
-        <p>El método de interpolacion de Lagrange</p>
-        <p>Los valores de 'x' y 'y' deben estar escritos asi [ a;b;c;d ], el tamaño de ambos vectores debe ser el MISMO </p>
+        <div style="text-align: center; color: red;">
+            <strong>Ten en cuenta a la hora de ingresar tus datos</strong>
+        </div>
+        <p>El método de interpolacion de Lagrange permite calcular el polinomio interpolante con el conjunto de Vectores 'x' y 'y'</p>
+        <p>Los valores de 'x' y 'y' deben estar escritos asi [ a;b;c;d ], el tamaño de ambos vectores debe ser el <strong>MISMO</strong> </p>
+        <p>Solo se pueden ingresar valores numericos</p>
     </div>
     <h2>Formulario de Lagrange</h2>
     <div class="form-container">

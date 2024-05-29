@@ -10,7 +10,23 @@
 <a href="{% url 'home' %}" class="btnHome">Home</a>
 <div class="container">
     <h2>Secante</h2>
+    <ul style="list-style-type: none;">
+        <li><strong>Convergencia:</strong> Superlineal, más rápida que la bisección pero más lenta que Newton.</li>
+        <li><strong>Situaciones recomendadas:</strong> Cuando la derivada no está disponible.</li>
+        <li><strong>Ventaja:</strong> No requiere derivada.</li>
+        <li><strong>Desventaja:</strong> Puede ser inestable, requiere dos puntos iniciales.</li>
+    </ul>
+    <h3><strong>Casos de uso:</strong></h3>
+    <ul style="list-style-type: none;">
+        <li><strong>Función f(x) sin derivada explícita:</strong> Ideal cuando calcular la derivada de f(x) es difícil o imposible, ya que este método no requiere la derivada.</li>
+        <li><strong>Precisión y Rapidez:</strong>Al no requierir la derivada,no es tan rápido como el método de Newton-Raphson, el método de la secante suele ser más rápido que los métodos lineales y converge más rápidamente que el método de Punto Fijo.</li>
+        <li><strong>Robustez:</strong> Al no requerir la derivada, es útil en casos donde la derivada es difícil de calcular o no está disponible, y proporciona una buena aproximación con menos requerimientos.</li>
+    </ul>
+    
     <div class="explicacion">
+        <div style="text-align: center; color: red;">
+            <strong>Ten en cuenta a la hora de ingresar tus datos</strong>
+        </div>
         <p>El método de la secante es un método numérico utilizado para encontrar las raíces de una función. Utiliza dos aproximaciones iniciales para la raíz y no requiere el uso de derivadas.</p>
         <p>Para llenar este formulario tienes que utilizar OBLIGATORIAMENTE la notación de MATLAB.</p>
         <p>Los errores deben ser escritos así: 0.5e-5.</p>
@@ -36,16 +52,16 @@
             </div>
             <div class="form-group">
                 <label for="tol">Tolerancia:</label>
-                <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia" required>
+                <input type="text" id="tol" name="tol" placeholder="Ingrese la tolerancia (Ej:0.5e-5)" required>
             </div>
             <div class="form-group">
                 <label for="niter">Numero de Iteraciones:</label>
-                <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones" required>
+                <input type="text" id="niter" name="niter" placeholder="Ingrese el número de iteraciones (Maximo 100)" required>
             </div>
             <div class="form-group">
 
                 <label for="terr">Tipo de Error:</label>
-                <input type="text" id="terr" name="terr" placeholder="Ingrese el número de terr" required>
+                <input type="text" id="terr" name="terr" placeholder="Ingrese el número de error (0-Absoluto/1-Relativo)" required>
             </div>
             <button type="submit" class="btnSave">Calcular</button>
         </form>
