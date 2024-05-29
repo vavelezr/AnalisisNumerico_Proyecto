@@ -1,8 +1,3 @@
-%MatJacobiSeid: Calcula la solución del sistema
-%Ax=b con base en una condición inicial x0,mediante el método de Jacobi o
-%de Gauss Seidel (Matricial), depende del método elegido, se elige 0 o 1 en met
-%respectivamente
-
 function [radio,E,s] = MatGaussSeid(x0,A,b,Tol,niter, met)
 
     A = double(A);
@@ -27,9 +22,9 @@ function [radio,E,s] = MatGaussSeid(x0,A,b,Tol,niter, met)
             x1=T*x0+C;
         end
         if met==1
-            T=inv(D-L)*(U); % ecuacion de matriz trasicion gs
-            C=inv(D-L)*b;  % ecuacion de vector constante gs
-            x1=T*x0+C; % ecuacion para proxima iteracion de x
+            T=inv(D-L)*(U); % ecuacion de matriz trasicion 
+            C=inv(D-L)*b;  % ecuacion de vector constante 
+            x1=T*x0+C; % ecuacion para proxima iteracion 
         end
         E(c+2)=norm((x1-x0)/x1,'inf');
         error=E(c+2);
