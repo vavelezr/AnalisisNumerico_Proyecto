@@ -1,4 +1,6 @@
+{% extends "navbar.html" %}
 {% load static %}
+{% block content%}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-<a href="{% url 'home' %}" class="btnHome">Home</a>
+
     <div class="container">
     <h2>Newton Interpolante</h2>
     <ul style="list-style-type: none;">
@@ -86,3 +88,4 @@
 </div>
 </body>
 </html>
+{% endblock%}

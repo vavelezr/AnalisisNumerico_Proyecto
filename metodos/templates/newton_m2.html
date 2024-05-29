@@ -1,4 +1,6 @@
+{% extends "navbar.html" %}
 {% load static %}
+{% block content%}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,8 +10,6 @@
     
 </head>
 <body>
-<a href="{% url 'home' %}" class="btnHome">Home</a>
-<h1>sad</h1>
 <div class="container">
     <h2>Newton Raices multiples m2</h2>
     <ul style="list-style-type: none;">
@@ -96,3 +96,4 @@
 </div>
 </body>
 </html>
+{% endblock%}

@@ -1,4 +1,6 @@
+{% extends "navbar.html" %}
 {% load static %}
+{% block content%}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,12 +9,15 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-<a href="{% url 'home' %}" class="btnHome">Home</a>
+
     <div class="container">
     <h2>Spline</h2>
     <div class="explicacion">
         <p>Splines son funciones definidas a trozos por polinomios que se utilizan para la interpolación de datos. Los splines aseguran una transición suave entre los diferentes segmentos de los polinomios, proporcionando una curva continua y diferenciable que pasa por todos los puntos de datos.</p>
-        <p>El método de interpolacion de Spline</p>
+        <p><strong>Lineal: </strong>utilizan polinomios de primer grado (líneas rectas) para conectar los puntos de datos. Cada subintervalo está representado por una línea recta que conecta dos puntos adyacentes
+        <p><strong>Cuadratico: </strong>utilizan polinomios de segundo grado para cada subintervalo. Garantizan continuidad en las primeras derivadas en los puntos de unión.
+        <p><strong>Cubico: </strong>utilizan polinomios de tercer grado para cada subintervalo. Garantizan continuidad tanto en las primeras como en las segundas derivadas en los puntos de unión.
+        </p>
         <p>Los valores dentro de los corchetes deben ser númericos, no se pueden letras</p>
         <p>Los valores de 'x' y 'y' deben estar escritos asi [a b c d ] ó así [a, b, c, d ], el tamaño de 'x' y 'y' DEBE ser igual</p>
         <p>Los puntos deben estar ordenados de forma ascendente</p>
@@ -65,3 +70,4 @@
 </div>
 </body>
 </html>
+{% endblock%}
